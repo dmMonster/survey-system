@@ -1,0 +1,24 @@
+.header-section {
+    background: rgb(28,95,108);
+    background: linear-gradient(90deg, rgba(28,95,108,1) 0%, rgba(65,94,141,1) 100%);
+    color: white;
+    padding-bottom: 2em;
+}
+
+.header-nav {
+    margin: 0 2em;
+    padding: 2em;
+}
+
+.title {
+    margin-right: 5em;
+    padding-left: 2em;
+}
+
+.header-image {
+    border-radius: 5px;
+    margin: 2em 0 2em 0;
+    max-width: 100%;
+    box-shadow: 0 0 25px #101434;
+}
+

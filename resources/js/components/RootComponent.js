@@ -1,18 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Header from "./header/Header.jsx";
 
 function RootComponent() {
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-header">Start APP</div>
-
-                        <div className="card-body">I'm an example component!</div>
-                    </div>
-                </div>
-            </div>
+        <div className="container-fluid">
+            <Header />
         </div>
     );
 }
