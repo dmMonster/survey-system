@@ -18,7 +18,7 @@ class Header extends Component {
                         </div>
                     </nav>
 
-                    <div className="row justify-content-lg-center">
+                    <div className="row justify-content-lg-center m-0">
                         <div className="title col-md-3">
                             <h1 className="pb-3">Online surveys for free</h1>
                             <h5 className="font-italic">Modern surveys for everyone </h5>
