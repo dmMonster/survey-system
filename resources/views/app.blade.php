@@ -14,6 +14,9 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300i&display=swap" rel="stylesheet">
     </head>
     <body>
         <div id="app">
