@@ -18,7 +18,7 @@ const Footer = () => {
 
             </div>
             <div className="col-12">
-                <h6 className="text-center">© Copyright {new Date().getFullYear()} Survio. All rights reserved.</h6>
+                <h6 className="text-center">© Copyright {new Date().getFullYear()} Survey System. All rights reserved.</h6>
             </div>
         </footer>
     );
