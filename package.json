@@ -29,6 +29,7 @@
         "@fortawesome/free-brands-svg-icons": "^5.12.1",
         "@fortawesome/free-solid-svg-icons": "^5.12.1",
         "@fortawesome/react-fontawesome": "^0.1.9",
-      "prop-types": "latest"
+        "prop-types": "latest",
+        "react-router-dom": "^5.1.2"
     }
 }
