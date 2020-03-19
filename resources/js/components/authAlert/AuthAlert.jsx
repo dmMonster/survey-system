@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './registerAlert.css';
+import './authAlert.css';
 
-RegisterAlert.propTypes = {
+AuthAlert.propTypes = {
     errors: PropTypes.object,
 };
 
-function RegisterAlert(props) {
+function AuthAlert(props) {
 
     let errorList = [];
     if (props.errors !== null) {
@@ -23,4 +23,4 @@ function RegisterAlert(props) {
     );
 }
 
-export default RegisterAlert;
+export default AuthAlert;

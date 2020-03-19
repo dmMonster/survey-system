@@ -1,6 +1,7 @@
 import React, {useRef, useState} from 'react';
 import './register.css';
-import RegisterAlert from "../registerAlert/RegisterAlert";
+import AuthAlert from "../authAlert/AuthAlert";
+import {useHistory} from "react-router-dom";
 
 function Register() {
     const [user, setUser] = useState({
@@ -19,6 +20,8 @@ function Register() {
 
     const [registerErrors, setRegisterErrors] = useState(null);
 
+    const  history = useHistory();
+
     const register = (e) => {
         e.preventDefault();
 
@@ -31,13 +34,14 @@ function Register() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(user)
-        }).then(response => response.json())
+        })
             .then((response) => {
                     if (response.status === 201) {
-                        console.log("Login successful");
-                        //TODO push route
-                    } else {
-                        setRegisterErrors(response.errors);
+                        history.push("/dashboard");
+                    } else if(response.status === 422){
+                        response.json().then(response => {
+                            setRegisterErrors(response.errors);
+                        })
                     }
 
                 }
@@ -59,7 +63,7 @@ function Register() {
     return (
         <form className="register-form" onSubmit={register}>
             <h4 className="text-center font-italic font-weight-light">Free register</h4>
-            <RegisterAlert errors={registerErrors}/>
+            <AuthAlert errors={registerErrors}/>
             <div className="form-group">
                 <label htmlFor="username">Name</label>
                 <input required={true} type="username" className="form-control" id="username" name={"name"}

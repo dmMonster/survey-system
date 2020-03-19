@@ -14,8 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+//Auth::routes();
+Route::post("/login", "Auth\LoginController@login")->name("login");
+Route::post("/register", "Auth\RegisterController@register");
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+
+Route::get("/isLogged", "Auth\LoginController@isLogged");
+
+
+Route::middleware('auth:airlock')->get('/user', function (Request $request) {
     return $request->user();
 });

@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'stateful' => explode(',', env('AIRLOCK_STATEFUL_DOMAINS', 'localhost,127.0.0.1')),
+
+    'stateful' => explode(',', env('AIRLOCK_STATEFUL_DOMAINS', '127.0.0.1:8000')),
 
     /*
     |--------------------------------------------------------------------------
