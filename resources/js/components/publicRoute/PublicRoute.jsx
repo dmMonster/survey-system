@@ -3,7 +3,7 @@ import {Route, Redirect} from 'react-router-dom';
 import {authService} from "../../_services/authService";
 import Loader from 'react-loader-spinner'
 
-const PrivateRoute = ({children, ...rest}) => {
+const PublicRoute = ({children, ...rest}) => {
 
     const [isLoading, setLoading] = useState(true);
     const [isLogged, setLogged] = useState(true);
@@ -29,12 +29,12 @@ const PrivateRoute = ({children, ...rest}) => {
             <Route
                 {...rest}
                 render={({location}) =>
-                    isLogged ? (
+                    !isLogged ? (
                         children
                     ) : (
                         <Redirect
                             to={{
-                                pathname: "/",
+                                pathname: "/dashboard",
                                 state: {from: location}
                             }}
                         />
@@ -43,5 +43,5 @@ const PrivateRoute = ({children, ...rest}) => {
             />
     );
 };
-export default PrivateRoute;
+export default PublicRoute;
 

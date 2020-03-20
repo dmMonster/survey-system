@@ -13,6 +13,7 @@ import Dashboard from "./dashboard/Dashboard";
 import store from "../store";
 import PrivateRoute from "./privateRoute/PrivateRoute";
 import {history} from '../history';
+import PublicRoute from "./publicRoute/PublicRoute";
 
 
 
@@ -21,12 +22,13 @@ function RootComponent() {
         <div className="container-fluid">
             <Router history={history}>
                 <Switch>
-                    <Route path="/login">
-                        <Login/>
+                    <PublicRoute exact path={"/"}>
                         <Header/>
                         <FeatureList/>
-                    </Route>
-                    <Route exact path="/">
+                    </PublicRoute>
+
+                    <Route exact path="/login">
+                        <Login/>
                         <Header/>
                         <FeatureList/>
                     </Route>
