@@ -1,34 +1,9 @@
-const initialState =
-    {
-        isAuthorized: false,
-        user: "...",
-        errors: {},
-        //abilities: ["non-admin", "admin-test", "user", "admin"],
-    };
+import {combineReducers} from 'redux';
 
+import {authReducer} from "./auth";
 
-export const authReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 'LOGIN_SUCCESS':
-            return (
-                {
-                    ...state,
-                    isAuthorized: true,
-                    user: action.user.email,
-                }
-            );
+const rootReducer = combineReducers({
+    authReducer
+});
 
-        case 'LOGIN_FAILED':
-            return (
-                {
-                    ...state,
-                    isAuthorized: true,
-                    user: "",
-                    errors: action.errors,
-                }
-            );
-
-        default:
-            return state
-    }
-};
+export default rootReducer;

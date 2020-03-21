@@ -25,13 +25,18 @@ function RootComponent() {
                     <PublicRoute exact path={"/"}>
                         <Header/>
                         <FeatureList/>
+                        <Route path={"/login"}>
+                            <Login/>
+                            <Header/>
+                            <FeatureList/>
+                        </Route>
                     </PublicRoute>
-
-                    <Route exact path="/login">
+                    <PublicRoute exact path={"/login"}>
                         <Login/>
                         <Header/>
                         <FeatureList/>
-                    </Route>
+                    </PublicRoute>
+
 
                     <PrivateRoute path={"/dashboard"}>
                         <Dashboard/>

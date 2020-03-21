@@ -25,7 +25,7 @@ function Login() {
     });
 
     const authDispatch = useDispatch();
-    const authErrors = useSelector(state => state.errors);
+    const authErrors = useSelector(state => state.authReducer.errors);
 
     const submitForm = (e) => {
         e.preventDefault();
