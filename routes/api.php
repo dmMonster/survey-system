@@ -15,11 +15,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Auth::routes();
-Route::post("/login", "Auth\LoginController@login")->name("login");
+Route::post("/login", "Auth\LoginController@login");
 Route::post("/register", "Auth\RegisterController@register");
 Route::get("/logout", "Auth\LoginController@logout");
 
 Route::get("/isLogged", "Auth\LoginController@isLogged");
+
+
+
+Route::group(['middleware' => ['auth:airlock']], function () {
+    Route::get("/users", "UserController@index");
+});
 
 
 Route::middleware('auth:airlock')->get('/user', function (Request $request) {

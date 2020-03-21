@@ -7,6 +7,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Airlock\HasApiTokens;
 
+/**
+ * @method static get()
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
