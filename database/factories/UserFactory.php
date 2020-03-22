@@ -29,6 +29,6 @@ $factory->define(User::class, function (Faker $faker) {
 
 $factory->state(User::class, "admin", function () {
     return [
-        'is_admin' => true,
+        'is_admin' => 1,
     ];
 });
