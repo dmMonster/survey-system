@@ -18,6 +18,6 @@ class CheckAdmin
         if($request->user()->checkAdmin()) {
             return $next($request);
         }
-      return response("dd",401);
+      return response("Unauthorized",401);
     }
 }
