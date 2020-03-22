@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './header.css';
 import Register from "../register/Register";
 import blackTablet from '../../../images/gray_laptop.jpg'
+import {Link} from "react-router-dom";
 
 class Header extends Component {
     render() {
@@ -14,7 +15,9 @@ class Header extends Component {
                             <img src="https://via.placeholder.com/150" alt="survey system logo"/>
                         </div>
                         <div>
-                            <button className="btn btn-outline-info btn-lg text-white">Log in</button>
+                            <Link to="/login">
+                                <button className="btn btn-outline-info btn-lg text-white">Login</button>
+                            </Link>
                         </div>
                     </nav>
 
