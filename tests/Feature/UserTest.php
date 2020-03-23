@@ -36,4 +36,30 @@ class UserTest extends TestCase
 
         $response->assertStatus(401);
     }
+
+    public function testAdminCanDeleteUser()
+    {
+        Airlock::actingAs(factory(User::class)->state("admin")->make());
+
+        $user = factory(User::class)->create();
+
+        $response = $this->delete('/api/users/' . $user->id);
+
+        $response->assertSuccessful();
+
+        $this->assertDatabaseMissing('users', [
+            "name" => $user->name,
+            "email" => $user->email,
+            "is_admin" => $user->is_admin,
+        ]);
+    }
+
+    public function testUserCannotDeleteOtherUser()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->delete('/api/users/' . $user->id);
+
+        $response->assertStatus(401);
+    }
 }
