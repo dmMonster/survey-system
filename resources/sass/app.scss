@@ -6,22 +6,3 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
-.container-fluid {
-    padding: 0
-}
-
-body {
-    font-family: 'Raleway', sans-serif;
-}
-
-.loader {
-    width: 100vw;
-    height: 90vh;
-    padding-top: 15vh;
-    align-content: center;
-    align-items: center;
-    background-color: #595a5d;
-    z-index: 9999;
-    text-align: center;
-}
