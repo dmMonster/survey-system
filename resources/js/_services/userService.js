@@ -4,6 +4,7 @@ export const userService = {
     getAllUsers,
     getSpecificUser,
     updateUser,
+    deleteUser,
 };
 
 function getAllUsers() {
@@ -16,4 +17,8 @@ function getSpecificUser(id) {
 
 function updateUser(id, user) {
     return from(axios.put("/api/users/" + id, user));
+}
+
+function deleteUser(id) {
+    return from(axios.delete("/api/users/" + id));
 }

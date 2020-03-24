@@ -3,6 +3,7 @@ import {useHistory, Route, Link} from "react-router-dom";
 import {authService} from "../../_services/authService";
 import UserList from "../userList/UserList.jsx";
 import EditUser from "../editUser/EditUser";
+import DeleteUser from "../deleteUser/DeleteUser";
 
 const Dashboard = () => {
 
@@ -26,6 +27,9 @@ const Dashboard = () => {
            <Route path={"/dashboard/users/:id/edit"}>
                <EditUser/>
            </Route>
+            <Route path={"/dashboard/users/:id/delete"}>
+                <DeleteUser/>
+            </Route>
         </div>
     );
 };
