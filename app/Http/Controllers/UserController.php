@@ -19,6 +19,7 @@ class UserController extends Controller
     }
 
 
+
     /**
      * Display the specified resource.
      *
@@ -29,7 +30,6 @@ class UserController extends Controller
     {
         return User::where('id', $id)->get();
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -57,5 +57,17 @@ class UserController extends Controller
             "is_admin" => boolval($request->input("is_admin")),
         ]);
 
+
+    }
+  
+   /**
+     * Remove the specific user.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        return User::where("id", $id)->delete();
     }
 }
