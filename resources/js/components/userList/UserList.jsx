@@ -35,13 +35,13 @@ const UserList = () => {
                     {val.is_admin && <FontAwesomeIcon icon={faCheck} color={"green"} size={"2x"}/>}
                 </td>
                 <td className="user-list-item action-icon">
-                    <NavLink to={"/editUser/" + val.id} className="nav-link">
+                    <NavLink to={"/dashboard/users/" + val.id + "/edit"} className="nav-link">
                         <FontAwesomeIcon icon={faUserEdit} size={"2x"}
                                          color={"#677CE4"}/>
                     </NavLink>
                 </td>
                 <td className="user-list-item action-icon">
-                    <NavLink to={"/deleteUser/" + val.id} className="nav-link">
+                    <NavLink to={"/dashboard/users/" + val.id + "/delete"} className="nav-link">
                         <FontAwesomeIcon icon={faUserMinus} size={"2x"}
                                          color={"#d42f35"}/>
                     </NavLink>

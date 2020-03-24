@@ -1,0 +1,24 @@
+.edit-user-form {
+    border: 1px solid #dadce0;
+    border-radius: 5px;
+}
+
+.edit-user-form > .form-group {
+    display: flex;
+    margin: 0;
+    padding: 2rem 2rem 2rem 2rem;
+    border-bottom: 1px solid #dadce0;;
+}
+
+.edit-user-form > .form-group:hover {
+    background-color: #d3d6db;
+}
+
+.edit-user-form label {
+    margin-right: 3rem;
+    font-weight: bold;
+}
+
+.edit-user-form .custom-checkbox{
+    padding-left: 4rem;
+}

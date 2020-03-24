@@ -2,6 +2,7 @@ import React from 'react';
 import {useHistory, Route, Link} from "react-router-dom";
 import {authService} from "../../_services/authService";
 import UserList from "../userList/UserList.jsx";
+import EditUser from "../editUser/EditUser";
 
 const Dashboard = () => {
 
@@ -22,6 +23,9 @@ const Dashboard = () => {
             <Route path={"/dashboard/userList"}>
                 <UserList/>
             </Route>
+           <Route path={"/dashboard/users/:id/edit"}>
+               <EditUser/>
+           </Route>
         </div>
     );
 };
