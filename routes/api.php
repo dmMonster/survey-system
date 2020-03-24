@@ -25,6 +25,8 @@ Route::get("/isLogged", "Auth\LoginController@isLogged");
 
 Route::group(['middleware' => ['auth:airlock']], function () {
     Route::get("/users", "UserController@index")->middleware("isAdmin");
+    Route::get("/users/{id}", "UserController@show")->middleware("isAdmin");
+    Route::put("/users/{id}", "UserController@update")->middleware("isAdmin");
 });
 
 
