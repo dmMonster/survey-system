@@ -14,6 +14,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+//Auth::routes();
+Route::post("/login", "Auth\LoginController@login");
+Route::post("/register", "Auth\RegisterController@register");
+Route::get("/logout", "Auth\LoginController@logout");
+
+Route::get("/isLogged", "Auth\LoginController@isLogged");
+
+
+
+Route::group(['middleware' => ['auth:airlock']], function () {
+    Route::get("/users", "UserController@index")->middleware("isAdmin");
+    Route::delete("/users/{id}", "UserController@destroy")->middleware("isAdmin");
+    Route::get("/users/{id}", "UserController@show")->middleware("isAdmin");
+    Route::put("/users/{id}", "UserController@update")->middleware("isAdmin");
+});
+
+
+Route::middleware('auth:airlock')->get('/user', function (Request $request) {
     return $request->user();
 });
