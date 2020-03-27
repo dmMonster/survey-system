@@ -22,7 +22,6 @@ class CreateSurveysTable extends Migration
             $table->timestamps();
 
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-
         });
     }
 
