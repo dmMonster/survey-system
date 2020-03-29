@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth:airlock']], function () {
 
     Route::post("/surveys","SurveyController@store");
     Route::post("/surveys/{id}/questions", "QuestionController@store");
+    Route::post("/surveys/{surveyId}/questions/{questionId}/answers", "AnswerController@store");
 });
 
 
