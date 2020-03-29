@@ -22,12 +22,13 @@ Route::get("/logout", "Auth\LoginController@logout");
 Route::get("/isLogged", "Auth\LoginController@isLogged");
 
 
-
 Route::group(['middleware' => ['auth:airlock']], function () {
     Route::get("/users", "UserController@index")->middleware("isAdmin");
     Route::delete("/users/{id}", "UserController@destroy")->middleware("isAdmin");
     Route::get("/users/{id}", "UserController@show")->middleware("isAdmin");
     Route::put("/users/{id}", "UserController@update")->middleware("isAdmin");
+
+    Route::post("/surveys","SurveyController@store");
 });
 
 
