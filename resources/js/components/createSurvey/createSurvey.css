@@ -1,0 +1,23 @@
+.survey-form {
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+    padding: 2rem;
+    margin: 2rem 0 2rem 0;
+}
+
+.survey-form-button {
+    background: #5280bf;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    border-bottom: 2px solid #192d99;
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 1rem;
+}
+
+.survey-form-button:hover {
+    background: #d47455;
+    border-bottom: 2px solid #a95b01;
+}
