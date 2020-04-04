@@ -3,6 +3,7 @@ import './editSurvey.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faTasks, faCheck, faBars} from "@fortawesome/free-solid-svg-icons";
 import EditQuestion from "../editQuestionModal/EditQuestion";
+import {surveyService} from "../../_services/surveyService";
 
 const EditSurvey = () => {
 
@@ -13,9 +14,21 @@ const EditSurvey = () => {
         setShowModal(false);
     };
 
-    const saveQuestionForm = e => {
-        e.preventDefault();
+    const saveQuestionForm = (formData) => {
         setShowModal(false);
+        //console.log(formData.get("question_text"));
+        //console.log(formData.getAll("answer"));
+        surveyService.saveQuestion(1, formData.get("question_text"), questionType, formData.getAll('answer'))
+            .subscribe({
+                next() {
+                    console.log("next")
+                },
+                error(error) {
+                    console.log(error)
+                }
+            });
+        //---
+        // console.log(formData.getAll("answer"));
         //save data
     };
 
@@ -36,7 +49,7 @@ const EditSurvey = () => {
                     </div>
                 </div>
                 <div className={"add-question-select-type text-center" + (showQuestionTypes ? "" : " d-none")}>
-                    <div className="question-type" onClick={() => showQuestionModal('multi-choice')}>
+                    <div className="question-type" onClick={() => showQuestionModal('multiple-choice')}>
                         <FontAwesomeIcon icon={faTasks} size={"3x"}/>
                         <div>Multi select</div>
                     </div>
@@ -44,12 +57,13 @@ const EditSurvey = () => {
                         <FontAwesomeIcon icon={faCheck} size={"3x"}/>
                         <div>Single select</div>
                     </div>
-                    <div className="question-type" onClick={() => showQuestionModal('text-answer')}>
+                    <div className="question-type" onClick={() => showQuestionModal('text')}>
                         <FontAwesomeIcon icon={faBars} size={"3x"}/>
                         <div>Text answer</div>
                     </div>
 
-                    <EditQuestion questionType={questionType} showModal={showModal} onClose={closeModal} onSave={saveQuestionForm}/>
+                    <EditQuestion questionType={questionType} showModal={showModal} onClose={closeModal}
+                                  onSave={saveQuestionForm}/>
 
                 </div>
             </div>
