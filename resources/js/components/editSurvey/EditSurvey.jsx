@@ -42,6 +42,18 @@ const EditSurvey = () => {
     return (
         <div className="container">
             <div>
+                <div>
+                    <h4>Survey title</h4>
+                    Survey description
+                </div>
+               <div>
+                   <div>
+                       Question 1
+                   </div>
+                   <div>
+                       Qeustion 2
+                   </div>
+               </div>
                 <div className="add-question">
                     <div className="dashed-line"/>
                     <div className="add-question-plus" onClick={() => setShowQuestionTypes(true)}>
