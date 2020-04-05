@@ -16,7 +16,6 @@ class StoreAnswer extends FormRequest
     public function authorize()
     {
         $survey = Survey::find($this->route("surveyId"));
-
         //if survey does not exist go to validation and return validation error
         if($survey === null) {
             return true;
@@ -32,7 +31,8 @@ class StoreAnswer extends FormRequest
     public function rules()
     {
         return [
-            'answer_text' => 'string|max:255',
+            'answers' => 'required',
+            'answers.*' => 'string|max:255|required',
             'question_id' => 'exists:questions,id',
             'survey_id' => 'exists:surveys,id'
         ];
@@ -46,6 +46,7 @@ class StoreAnswer extends FormRequest
         return array_merge($this->request->all(), [
             'question_id' => $this->route('questionId'),
             'survey_id' => $this->route('surveyId'),
+            'answers' => json_decode($this->input('answers'),true),
         ]);
     }
 }
