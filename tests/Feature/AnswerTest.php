@@ -34,15 +34,18 @@ class AnswerTest extends TestCase
     public function testUserCanAddAnswerToQuestion()
     {
         $response = $this->postJson('/api/surveys/' . $this->survey->id . '/questions/' . $this->question->id . '/answers', [
-            'answer_text' => 'Answer test',
+            'answers' => json_encode(['test1', 'test2', 'test3']),
         ]);
+        $this->assertDatabaseHas('answers', ['answer_text' => 'test1']);
+        $this->assertDatabaseHas('answers', ['answer_text' => 'test2']);
+        $this->assertDatabaseHas('answers', ['answer_text' => 'test3']);
         $response->assertCreated();
     }
 
     public function testUserGiveInvalidAnswer()
     {
         $response = $this->postJson('/api/surveys/' . $this->survey->id . '/questions/' . $this->question->id . '/answers', [
-            'answer_text' => '',
+            'answers' => json_encode(['']),
         ]);
         $response->assertStatus(422);
     }
@@ -50,7 +53,7 @@ class AnswerTest extends TestCase
     public function testUserCannotAddAnswerToNotExistQuestion()
     {
         $response = $this->postJson('/api/surveys/' . $this->survey->id . '/questions/' . ($this->question->id + 100) . '/answers', [
-            'answer_text' => 'Answer test',
+            'answers' => json_encode(['test1', 'test2', 'test3']),
         ]);
         $response->assertStatus(422);
     }
@@ -58,7 +61,7 @@ class AnswerTest extends TestCase
     public function testUserCannotAddAnswerToNotExistSurvey()
     {
         $response = $this->postJson('/api/surveys/' . ($this->survey->id + 100) . '/questions/' . $this->question->id . '/answers', [
-            'answer_text' => 'Answer test',
+            'answers' => json_encode(['test1', 'test2', 'test3']),
         ]);
         $response->assertStatus(422);
     }
@@ -69,7 +72,7 @@ class AnswerTest extends TestCase
         Airlock::actingAs($user2);
 
         $response = $this->postJson('/api/surveys/' . $this->survey->id . '/questions/' . $this->question->id . '/answers', [
-            'answer_text' => 'Answer test',
+            'answers' => json_encode(['test1', 'test2', 'test3']),
         ]);
         $response->assertStatus(403);
     }
