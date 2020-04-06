@@ -23,7 +23,7 @@ function EditQuestion(props) {
     const answerList = answers.map((val) => {
         return (
             <div key={val.answer_id} className="d-flex align-items-center">
-                <input name={"answer"} className="answer" type="text"
+                <input name={"answer"} className="answer" type="text" required={true}
                        defaultValue="Answer..." onFocus={(e) => {
                     e.target.select()
                 }}/>
@@ -55,9 +55,7 @@ function EditQuestion(props) {
     const answersSection = (
         <div className="answers">
             <div>
-
                 {answerList}
-
                 <button className="btn btn-outline-info" onClick={addAnswer}>Add answer</button>
             </div>
         </div>
@@ -79,7 +77,7 @@ function EditQuestion(props) {
                     </div>
                     <div>
                         <input name="question_text" className="question" type="text" required={true}
-                               placeholder="Your question..."/>
+                               placeholder="Write your question here..."/>
                     </div>
                     {props.questionType !== 'text' ? answersSection :
                         <input className="w-100 form-control border-bottom mt-3" type="text" placeholder="Text answer"

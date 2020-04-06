@@ -14,22 +14,20 @@ const EditSurvey = () => {
         setShowModal(false);
     };
 
+    const [status, setStatus] = useState("Saved");
     const saveQuestionForm = (formData) => {
         setShowModal(false);
-        //console.log(formData.get("question_text"));
-        //console.log(formData.getAll("answer"));
+        setStatus("Saving...");
         surveyService.saveQuestion(1, formData.get("question_text"), questionType, formData.getAll('answer'))
             .subscribe({
                 next() {
-                    console.log("next")
+                    setStatus("Saved");
                 },
                 error(error) {
-                    console.log(error)
+                    console.log(error);
+                    setStatus("Saving Error. Refresh the page and try again.");
                 }
             });
-        //---
-        // console.log(formData.getAll("answer"));
-        //save data
     };
 
     const [questionType, setQuestionType] = useState('single-choice');
@@ -42,9 +40,14 @@ const EditSurvey = () => {
     return (
         <div className="container">
             <div>
-                <div>
-                    <h4>Survey title</h4>
-                    Survey description
+                <div className="d-flex justify-content-around">
+                    <div>
+                        <h4>Survey title</h4>
+                        Survey description
+                    </div>
+                    <div className="w-25">
+                        <span>Status: {status}</span>
+                    </div>
                 </div>
                <div>
                    <div>
