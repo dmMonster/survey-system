@@ -1,0 +1,9 @@
+.action-link {
+    padding: 2rem;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.action-link:hover {
+    background-color: #d8d8d8;
+}

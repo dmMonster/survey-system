@@ -6,6 +6,11 @@ export const surveyService = {
     saveQuestion,
 };
 
+function getMySurveys() {
+    //TODO get logged user surveys
+}
+
+
 function createSurvey(survey) {
     return from(axios.post("/api/surveys", survey));
 }
