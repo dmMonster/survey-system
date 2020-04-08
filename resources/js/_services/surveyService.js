@@ -4,7 +4,13 @@ import {mergeMap} from "rxjs/operators";
 export const surveyService = {
     createSurvey,
     saveQuestion,
+    getMySurveys,
 };
+
+function getMySurveys() {
+    return from(axios.get("/api/surveys"));
+}
+
 
 function createSurvey(survey) {
     return from(axios.post("/api/surveys", survey));

@@ -6,6 +6,7 @@ import EditUser from "../editUser/EditUser";
 import DeleteUser from "../deleteUser/DeleteUser";
 import CreateSurvey from "../createSurvey/CreateSurvey";
 import EditSurvey from "../editSurvey/EditSurvey";
+import SurveyList from "../surveyList/SurveyList";
 
 const Dashboard = () => {
 
@@ -23,6 +24,10 @@ const Dashboard = () => {
 
             <Link to={"/dashboard/surveys/add"} >
                 <button className="btn btn-primary">Create Survey</button>
+            </Link>
+
+            <Link to={"/dashboard/survey-list"}>
+                <button className="btn btn-primary">Survey List</button>
             </Link>
 
             <Link to={"/dashboard/userList"} >
@@ -43,6 +48,9 @@ const Dashboard = () => {
             </Route>
             <Route path={"/dashboard/surveys/:id/edit"}>
                 <EditSurvey/>
+            </Route>
+            <Route path={"/dashboard/survey-list"}>
+                <SurveyList/>
             </Route>
         </div>
     );

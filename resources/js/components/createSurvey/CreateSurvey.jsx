@@ -39,7 +39,7 @@ const CreateSurvey = () => {
         e.preventDefault();
         surveyService.createSurvey(survey).subscribe({
             next() {
-                history.push("/dashboard/surveys-list");
+                history.push("/dashboard/survey-list");
             },
             error(error) {
                 setErrors(error.response.data);
