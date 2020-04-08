@@ -5,6 +5,7 @@ import UserList from "../userList/UserList.jsx";
 import EditUser from "../editUser/EditUser";
 import DeleteUser from "../deleteUser/DeleteUser";
 import CreateSurvey from "../createSurvey/CreateSurvey";
+import EditSurvey from "../editSurvey/EditSurvey";
 
 const Dashboard = () => {
 
@@ -39,6 +40,9 @@ const Dashboard = () => {
             </Route>
             <Route path={"/dashboard/surveys/add"}>
                 <CreateSurvey/>
+            </Route>
+            <Route path={"/dashboard/surveys/:id/edit"}>
+                <EditSurvey/>
             </Route>
         </div>
     );
