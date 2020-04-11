@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateSurvey;
 use App\Survey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,5 +35,16 @@ class SurveyController extends Controller
             'token' => Hash::make($request->input('end_data')),
             'user_id' => Auth::id(),
         ]);
+    }
+
+    public function update(UpdateSurvey $request, int $id)
+    {
+        //dd($request->all());
+        return Survey::where("id", $id)
+            ->update([
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'end_date' => $request->input('end_date'),
+            ]);
     }
 }
