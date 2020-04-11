@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Validator;
 
 class SurveyController extends Controller
 {
+    public function index()
+    {
+        return Survey::where('user_id', Auth::id())->get();
+    }
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(['name', 'description', 'end_date']), [

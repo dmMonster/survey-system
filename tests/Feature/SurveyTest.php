@@ -12,11 +12,6 @@ class SurveyTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     public function testUserCanCreateSurvey()
     {
         $user = factory(User::class)->create();
@@ -77,8 +72,29 @@ class SurveyTest extends TestCase
 
         $descriptionError = array_key_exists('description', $response->json());
         $this->assertTrue($descriptionError);
+    }
 
+    public function testGetLoggedUserSurveys()
+    {
+        $user = factory(User::class)->create();
+        Airlock::actingAs($user);
 
+        $survey = factory(Survey::class)->state('token')->create([
+            'user_id' => $user->id,
+        ]);
+        $response = $this->get('/api/surveys');
+        $response->assertJson([$survey->toArray()]);
+    }
+
+    public function testGetUserSurveysWhenNotLogged()
+    {
+        $user = factory(User::class)->create();
+
+        factory(Survey::class)->state('token')->create([
+            'user_id' => $user->id,
+        ]);
+        $response = $this->get('/api/surveys');
+        $response->assertStatus(401);
     }
 
 }
