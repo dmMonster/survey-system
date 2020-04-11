@@ -26,10 +26,6 @@ const Dashboard = () => {
                 <button className="btn btn-primary">Create Survey</button>
             </Link>
 
-            <Link to={"/dashboard/survey-list"}>
-                <button className="btn btn-primary">Survey List</button>
-            </Link>
-
             <Link to={"/dashboard/userList"} >
                 <button className="btn btn-primary">UserList</button>
             </Link>
@@ -52,9 +48,6 @@ const Dashboard = () => {
             </Route>
             <Route path={"/dashboard/surveys/:id/edit"}>
                 <EditSurvey/>
-            </Route>
-            <Route path={"/dashboard/survey-list"}>
-                <SurveyList/>
             </Route>
             <Route path={"/dashboard/surveys-list"}>
                 <SurveyList/>
