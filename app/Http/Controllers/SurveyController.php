@@ -39,7 +39,6 @@ class SurveyController extends Controller
 
     public function update(UpdateSurvey $request, int $id)
     {
-        //dd($request->all());
         return Survey::where("id", $id)
             ->update([
                 'name' => $request->input('name'),
