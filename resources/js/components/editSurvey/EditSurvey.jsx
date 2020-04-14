@@ -4,6 +4,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faTasks, faCheck, faBars} from "@fortawesome/free-solid-svg-icons";
 import EditQuestion from "../editQuestionModal/EditQuestion";
 import {surveyService} from "../../_services/surveyService";
+import EditSurveyForm from "./EditSurveyForm";
+import {faInfo} from "@fortawesome/free-solid-svg-icons/faInfo";
 
 const EditSurvey = () => {
 
@@ -14,7 +16,7 @@ const EditSurvey = () => {
         setShowModal(false);
     };
 
-    const [status, setStatus] = useState("Saved");
+    const [status, setStatus] = useState("Saved.");
     const saveQuestionForm = (formData) => {
         setShowModal(false);
         setStatus("Saving...");
@@ -23,8 +25,7 @@ const EditSurvey = () => {
                 next() {
                     setStatus("Saved");
                 },
-                error(error) {
-                    console.log(error);
+                error() {
                     setStatus("Saving Error. Refresh the page and try again.");
                 }
             });
@@ -34,29 +35,39 @@ const EditSurvey = () => {
     const showQuestionModal = (type) => {
         setShowModal(true);
         setQuestionType(type);
-
     };
 
     return (
         <div className="container">
             <div>
-                <div className="d-flex justify-content-around">
-                    <div>
-                        <h4>Survey title</h4>
-                        Survey description
+                <div className="row border">
+                    <div className="col-md-3 p-3 text-center">
+                        <div className="dashed-line pb-3">
+                            <FontAwesomeIcon icon={faInfo} size={'5x'}/>
+                        </div>
+                        <span className="text-black-50 font-weight-bold">Status: </span><span>{status}</span>
                     </div>
-                    <div className="w-25">
-                        <span>Status: {status}</span>
+                    <div className="col-md-9">
+                        <EditSurveyForm
+                            onSaving={() => {
+                                setStatus('Saving...')
+                            }}
+                            onSaved={() => {
+                                setStatus('Saved.')
+                            }}
+                            onSavingError={(errorResponse) => {
+                                errorResponse.status === 422 ? setStatus('Invalid Data.') : setStatus('Unknown error.')
+                            }}/>
                     </div>
                 </div>
-               <div>
-                   <div>
-                       Question 1
-                   </div>
-                   <div>
-                       Qeustion 2
-                   </div>
-               </div>
+                <div>
+                    <div>
+                        Question 1
+                    </div>
+                    <div>
+                        Qeustion 2
+                    </div>
+                </div>
                 <div className="add-question">
                     <div className="dashed-line"/>
                     <div className="add-question-plus" onClick={() => setShowQuestionTypes(true)}>
