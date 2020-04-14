@@ -97,4 +97,79 @@ class SurveyTest extends TestCase
         $response->assertStatus(401);
     }
 
+    //update specific survey
+    public function testUserCanUpdateHisSurvey()
+    {
+        $user = factory(User::class)->create();
+        Airlock::actingAs($user);
+
+        $survey = factory(Survey::class)->state('token')->create([
+            'user_id' => $user->id,
+        ]);
+
+        $newSurveyData = factory(Survey::class)->make()->toArray();
+
+        $response = $this->putJson('/api/surveys/' . $survey->id, $newSurveyData);
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('surveys', $newSurveyData);
+
+    }
+
+    public function testUserGiveInvalidDataToUpdateSurvey()
+    {
+        $user = factory(User::class)->create();
+        Airlock::actingAs($user);
+
+        $survey = factory(Survey::class)->state('token')->create([
+            'user_id' => $user->id,
+        ]);
+
+        $newSurveyData = factory(Survey::class)->make([
+            'name' => null,
+            'description' => null,
+            'end_date' => '2077-20-20 29:20:00',
+        ])->toArray();
+
+        $response = $this->putJson('/api/surveys/' . $survey->id, $newSurveyData);
+        $response->assertStatus(422);
+
+        $responseJson = $response->json();
+        $this->assertArrayHasKey('name', $responseJson['errors'], 'Bad name.');
+        $this->assertArrayHasKey('description', $responseJson['errors'], 'Bad description.');
+        $this->assertArrayHasKey('end_date', $responseJson['errors'], 'Bad date.');
+    }
+
+    public function testUserCanNotEditSomeoneElseSurvey()
+    {
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        Airlock::actingAs($user2);
+
+        $survey = factory(Survey::class)->state('token')->create([
+            'user_id' => $user->id,
+        ]);
+
+        $newSurveyData = factory(Survey::class)->make()->toArray();
+        $response = $this->putJson('/api/surveys/' . $survey->id, $newSurveyData);
+
+        $response->assertStatus(403);
+    }
+
+    public function testAdminCanEditAnySurvey()
+    {
+        $user = factory(User::class)->create();
+        $admin = factory(User::class)->state('admin')->create();
+        Airlock::actingAs($admin);
+
+        $survey = factory(Survey::class)->state('token')->create([
+            'user_id' => $user->id,
+        ]);
+
+        $newSurveyData = factory(Survey::class)->make()->toArray();
+        $response = $this->putJson('/api/surveys/' . $survey->id, $newSurveyData);
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('surveys', $newSurveyData);
+    }
 }
