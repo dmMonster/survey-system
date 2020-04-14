@@ -6,7 +6,7 @@ use App\Question;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreAnswer extends FormRequest
+class UpdateAnswer extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,12 +15,11 @@ class StoreAnswer extends FormRequest
      */
     public function authorize()
     {
-        $question = Question::find($this->route("surveyId"));
-        //if survey does not exist go to validation and return validation error
-        if ($question === null) {
+        $question = Question::where('id', $this->route('questionId'))->first();
+        if (is_null($question) || intval($question->survey->user_id) === Auth::id() || Auth::user()->checkAdmin()) {
             return true;
         }
-        return (intval($question->survey->user_id) === Auth::id() || Auth::user()->checkAdmin());
+        return false;
     }
 
     /**
@@ -34,18 +33,13 @@ class StoreAnswer extends FormRequest
             'answers' => 'required',
             'answers.*' => 'string|max:255|required',
             'question_id' => 'exists:questions,id',
-            'survey_id' => 'exists:surveys,id'
         ];
     }
 
-    /**
-     * @return array
-     */
     public function validationData()
     {
         return array_merge($this->request->all(), [
             'question_id' => $this->route('questionId'),
-            'survey_id' => $this->route('surveyId'),
             'answers' => json_decode($this->input('answers'), true),
         ]);
     }

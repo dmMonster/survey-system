@@ -96,4 +96,101 @@ class QuestionTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    public function testUserCanUpdateQuestion()
+    {
+        $user = factory(User::class)->create();
+        Airlock::actingAs($user);
+
+        $survey = factory(Survey::class)->state('token')->create([
+                'user_id' => $user->id,
+            ]
+        );
+
+        $question = factory(Question::class)->create([
+            'survey_id' => $survey->id,
+        ]);
+
+        $updatedQuestion = factory(Question::class)->make()->toArray();
+
+        $response = $this->putJson('/api/questions/' . $question->id, $updatedQuestion);
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('questions', $updatedQuestion);
+    }
+
+    public function testUserCanNotUpdateOtherUserQuestion()
+    {
+        $user = factory(User::class)->create();
+        Airlock::actingAs($user);
+
+        $user2 = factory(User::class)->create();
+
+        $survey = factory(Survey::class)->state('token')->create([
+                'user_id' => $user2->id,
+            ]
+        );
+
+        $question = factory(Question::class)->create([
+            'survey_id' => $survey->id,
+        ]);
+
+        $updatedQuestion = factory(Question::class)->make()->toArray();
+
+        $response = $this->putJson('/api/questions/' . $question->id, $updatedQuestion);
+        $response->assertStatus(403);
+    }
+
+    public function testAdminCanEditAnyQuestion()
+    {
+        $admin = Airlock::actingAs(factory(User::class)->state("admin")->make());
+        Airlock::actingAs($admin);
+
+        $user = factory(User::class)->create();
+        $survey = factory(Survey::class)->state('token')->create([
+                'user_id' => $user->id,
+            ]
+        );
+
+        $question = factory(Question::class)->create([
+            'survey_id' => $survey->id,
+        ]);
+
+        $updatedQuestion = factory(Question::class)->make()->toArray();
+
+        $response = $this->putJson('/api/questions/' . $question->id, $updatedQuestion);
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('questions', $updatedQuestion);
+    }
+
+    public function testUserGiveInvalidDataToUpdateQuestion()
+    {
+        $user = factory(User::class)->create();
+        Airlock::actingAs($user);
+
+        $survey = factory(Survey::class)->state('token')->create([
+                'user_id' => $user->id,
+            ]
+        );
+
+         factory(Question::class)->create([
+            'survey_id' => $survey->id,
+        ]);
+
+        $updatedQuestion = [
+          'question_text' => '',
+          'type' => 'non-exist',
+        ];
+
+        $response = $this->putJson('/api/questions/' . '-1', $updatedQuestion);
+        $response->assertStatus(422);
+
+        $responseJson = $response->json();
+        $this->assertArrayHasKey('id', $responseJson['errors'], 'Id error.');
+        $this->assertArrayHasKey('question_text', $responseJson['errors'], 'Question text error.');
+        $this->assertArrayHasKey('type', $responseJson['errors'], 'Question type error.');
+
+
+    }
 }

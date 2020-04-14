@@ -36,10 +36,10 @@ class AnswerTest extends TestCase
         $response = $this->postJson('/api/surveys/' . $this->survey->id . '/questions/' . $this->question->id . '/answers', [
             'answers' => json_encode(['test1', 'test2', 'test3']),
         ]);
+        $response->assertCreated();
         $this->assertDatabaseHas('answers', ['answer_text' => 'test1']);
         $this->assertDatabaseHas('answers', ['answer_text' => 'test2']);
         $this->assertDatabaseHas('answers', ['answer_text' => 'test3']);
-        $response->assertCreated();
     }
 
     public function testUserGiveInvalidAnswer()
@@ -75,5 +75,48 @@ class AnswerTest extends TestCase
             'answers' => json_encode(['test1', 'test2', 'test3']),
         ]);
         $response->assertStatus(403);
+    }
+
+    public function testUserCanUpdateQuestionAnswers()
+    {
+        $response = $this->putJson('/api/questions/' . $this->question->id . '/answers', [
+            'answers' => json_encode(['test1', 'test2', 'test3']),
+        ]);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('answers',['answer_text' => 'test1']);
+        $this->assertDatabaseHas('answers',['answer_text' => 'test2']);
+        $this->assertDatabaseHas('answers',['answer_text' => 'test3']);
+    }
+
+    public function testUserCanNotUpdateOtherUserAnswers()
+    {
+        $user2 = factory(User::class)->create();
+        Airlock::actingAs($user2);
+        $response = $this->putJson('/api/questions/' . $this->question->id . '/answers', [
+            'answers' => json_encode(['test1', 'test2', 'test3']),
+        ]);
+        $response->assertStatus(403);
+    }
+
+    public function testUserGiveInvalidAnswersToUpdate()
+    {
+        $response = $this->putJson('/api/questions/' . $this->question->id . '/answers', [
+            'answers' => json_encode(['', null, 1]),
+        ]);
+        $response->assertStatus(422);
+        $responseJson = $response->json();
+        $this->assertArrayHasKey('answers.0', $responseJson['errors'], 'Error empty answer.');
+        $this->assertArrayHasKey('answers.1', $responseJson['errors'], 'Error null answer.');
+        $this->assertArrayHasKey('answers.2', $responseJson['errors'], 'Error number answer.');
+    }
+
+    public function testAdminCanEditAnyAnswers()
+    {
+        $admin = factory(User::class)->state('admin')->create();
+        Airlock::actingAs($admin);
+        $response = $this->putJson('/api/questions/' . $this->question->id . '/answers', [
+            'answers' => json_encode(['test1', 'test2', 'test3']),
+        ]);
+        $response->assertStatus(200);
     }
 }
