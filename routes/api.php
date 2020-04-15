@@ -21,7 +21,8 @@ Route::get("/logout", "Auth\LoginController@logout");
 
 Route::get("/isLogged", "Auth\LoginController@isLogged");
 
-
+Route::get("/surveys/{id}", "SurveyController@index");
+Route::get("/surveys/{id}/questions", "QuestionController@index");
 Route::group(['middleware' => ['auth:airlock']], function () {
     Route::get("/users", "UserController@index")->middleware("isAdmin");
     Route::delete("/users/{id}", "UserController@destroy")->middleware("isAdmin");

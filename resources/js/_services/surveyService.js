@@ -6,12 +6,16 @@ export const surveyService = {
     updateSurvey,
     saveQuestion,
     getMySurveys,
+    getSurveyQuestions,
 };
 
 function getMySurveys() {
     return from(axios.get("/api/surveys"));
 }
 
+function getSurveyQuestions(surveyId) {
+    return from(axios.get("/api/surveys/" + surveyId + "/questions"));
+}
 function createSurvey(survey) {
     return from(axios.post("/api/surveys", survey));
 }

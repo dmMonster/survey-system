@@ -9,6 +9,11 @@ use App\Question;
 
 class QuestionController extends Controller
 {
+   public function index(int $surveyId)
+   {
+       return Question::where('survey_id', $surveyId)->with('answers')->get();
+   }
+
     public function store(StoreQuestion $request, $id)
     {
         return Question::create([

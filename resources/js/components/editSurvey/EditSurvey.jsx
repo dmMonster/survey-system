@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './editSurvey.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faTasks, faCheck, faBars} from "@fortawesome/free-solid-svg-icons";
@@ -6,6 +6,7 @@ import EditQuestion from "../editQuestionModal/EditQuestion";
 import {surveyService} from "../../_services/surveyService";
 import EditSurveyForm from "./EditSurveyForm";
 import {faInfo} from "@fortawesome/free-solid-svg-icons/faInfo";
+import QuestionList from "../questionList/QuestionList";
 
 const EditSurvey = () => {
 
@@ -37,6 +38,14 @@ const EditSurvey = () => {
         setQuestionType(type);
     };
 
+    const [questions, setQuestions] = useState([]);
+    useEffect(() => {
+        surveyService.getSurveyQuestions(1).subscribe({
+            next(response){setQuestions(response.data)}
+        })
+    }, []);
+
+
     return (
         <div className="container">
             <div>
@@ -61,12 +70,7 @@ const EditSurvey = () => {
                     </div>
                 </div>
                 <div>
-                    <div>
-                        Question 1
-                    </div>
-                    <div>
-                        Qeustion 2
-                    </div>
+                    <QuestionList questions={questions}/>
                 </div>
                 <div className="add-question">
                     <div className="dashed-line"/>
