@@ -41,7 +41,9 @@ const EditSurvey = () => {
     const [questions, setQuestions] = useState([]);
     useEffect(() => {
         surveyService.getSurveyQuestions(1).subscribe({
-            next(response){setQuestions(response.data)}
+            next(response) {
+                setQuestions(response.data)
+            }
         })
     }, []);
 
@@ -70,7 +72,7 @@ const EditSurvey = () => {
                     </div>
                 </div>
                 <div>
-                    <QuestionList questions={questions}/>
+                    <QuestionList questions={questions} editMode={true}/>
                 </div>
                 <div className="add-question">
                     <div className="dashed-line"/>
@@ -92,8 +94,9 @@ const EditSurvey = () => {
                         <div>Text answer</div>
                     </div>
 
-                    <EditQuestion questionType={questionType} showModal={showModal} onClose={closeModal}
-                                  onSave={saveQuestionForm}/>
+                    {showModal && <EditQuestion questionType={questionType} showModal={showModal} onClose={closeModal}
+                                                onSave={saveQuestionForm}/>
+                    }
 
                 </div>
             </div>

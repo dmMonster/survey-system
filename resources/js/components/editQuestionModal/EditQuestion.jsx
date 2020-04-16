@@ -4,13 +4,6 @@ import './editQuestion.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons/faTrash";
 
-EditQuestion.propTypes = {
-    questionType: PropTypes.oneOf(['single-choice', 'multiple-choice', 'text']).isRequired,
-    showModal: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired,
-};
-
 function EditQuestion(props) {
 
     const initialAnswers = [
@@ -79,18 +72,30 @@ function EditQuestion(props) {
                         <input name="question_text" className="question" type="text" required={true}
                                placeholder="Write your question here..."/>
                     </div>
-                    {props.questionType !== 'text' ? answersSection :
+                    {props.questionType !== 'text' ?
+                        answersSection :
                         <input className="w-100 form-control border-bottom mt-3" type="text" placeholder="Text answer"
-                               disabled={true}/>}
+                               disabled={true}/>
+                    }
                     <div>
                         <div>
                             <button className="btn btn-lg btn-primary mt-3">Save question</button>
                         </div>
                     </div>
                 </form>
+                {alert("editing")}
+                {console.log(props.currentQuestion)}
             </div>
         </div>
     );
 }
+
+EditQuestion.propTypes = {
+    questionType: PropTypes.oneOf(['single-choice', 'multiple-choice', 'text']).isRequired,
+    showModal: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired,
+};
+
 
 export default EditQuestion;

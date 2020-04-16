@@ -29,9 +29,9 @@ function saveQuestion(surveyId, questionText,questionType, answers = []) {
         question_text: questionText,
         type: questionType,
     } )).pipe(
-        mergeMap(() => {
+        mergeMap((createdQuestion) => {
             if(answers.length > 0) {
-                return axios.post("/api/surveys/" + surveyId + "/questions/" + 1 +"/answers",{
+                return axios.post("/api/questions/" + createdQuestion.data.id +"/answers",{
                     answers: JSON.stringify(answers),
                 })
             } else {
