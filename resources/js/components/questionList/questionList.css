@@ -1,13 +1,24 @@
 .questions-container {
     padding: 5rem;
+    animation: fade-in .7s ease-in;
 }
+
 @media ( max-width: 768px) {
     .questions-container {
         padding: 0;
     }
 }
 
-.question-list-question  {
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.question-list-question {
     border-bottom: 2px solid #cccccc;
     border-top: 5px #8b9297 double;
     border-radius: 5px;
@@ -17,6 +28,7 @@
     background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
     box-sizing: border-box;
     position: relative;
+    animation: fade-in 0.5s ease-in-out;
 }
 
 .edit-frame {

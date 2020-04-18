@@ -39,12 +39,18 @@ const EditSurvey = () => {
     };
 
     const [questions, setQuestions] = useState([]);
-    useEffect(() => {
+    const [updatingQuestions, setUpdatingQuestions] = useState(true);
+    function updateQuestions() {
+        setUpdatingQuestions(true);
         surveyService.getSurveyQuestions(1).subscribe({
             next(response) {
-                setQuestions(response.data)
+                setQuestions(response.data);
+                setUpdatingQuestions(false);
             }
         })
+    }
+    useEffect(() => {
+        updateQuestions();
     }, []);
 
 
@@ -52,13 +58,14 @@ const EditSurvey = () => {
         <div className="container">
             <div>
                 <div className="row border">
-                    <div className="col-md-3 p-3 text-center">
+                    <div className="col-md-3 p-3 text-center status">
                         <div className="dashed-line pb-3">
                             <FontAwesomeIcon icon={faInfo} size={'5x'}/>
                         </div>
                         <span className="text-black-50 font-weight-bold">Status: </span><span>{status}</span>
                     </div>
                     <div className="col-md-9">
+
                         <EditSurveyForm
                             onSaving={() => {
                                 setStatus('Saving...')
@@ -69,10 +76,16 @@ const EditSurvey = () => {
                             onSavingError={(errorResponse) => {
                                 errorResponse.status === 422 ? setStatus('Invalid Data.') : setStatus('Unknown error.')
                             }}/>
+
                     </div>
                 </div>
                 <div>
-                    <QuestionList questions={questions} editMode={true}/>
+
+                    <QuestionList questions={questions} updatingQuestions={updatingQuestions} editMode={true} onStatusChange={(status) => {
+                        updateQuestions();
+                        setStatus(status);
+                    }}/>
+
                 </div>
                 <div className="add-question">
                     <div className="dashed-line"/>

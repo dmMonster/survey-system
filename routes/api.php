@@ -21,7 +21,7 @@ Route::get("/logout", "Auth\LoginController@logout");
 
 Route::get("/isLogged", "Auth\LoginController@isLogged");
 
-Route::get("/surveys/{id}", "SurveyController@index");
+
 Route::get("/surveys/{id}/questions", "QuestionController@index");
 Route::group(['middleware' => ['auth:airlock']], function () {
     Route::get("/users", "UserController@index")->middleware("isAdmin");
@@ -29,12 +29,15 @@ Route::group(['middleware' => ['auth:airlock']], function () {
     Route::get("/users/{id}", "UserController@show")->middleware("isAdmin");
     Route::put("/users/{id}", "UserController@update")->middleware("isAdmin");
 
-    Route::post("/surveys","SurveyController@store");
     Route::get("/surveys", "SurveyController@index");
+    Route::get("/surveys/{id}", "SurveyController@index");
+    Route::post("/surveys","SurveyController@store");
     Route::put("/surveys/{id}", "SurveyController@update");
+
     Route::post("/surveys/{id}/questions", "QuestionController@store");
     Route::put("/questions/{id}","QuestionController@update");
-    Route::post("/surveys/{surveyId}/questions/{questionId}/answers", "AnswerController@store");
+
+    Route::post("/questions/{questionId}/answers", "AnswerController@store");
     Route::put("/questions/{questionId}/answers", "AnswerController@update");
 
 });

@@ -43,6 +43,7 @@ class AnswerController extends Controller
         }
         unset($answer);
 
+        Answer::where('question_id', $questionId)->delete();
         return response(Answer::insert($answersToInsert), 200);
     }
 }
