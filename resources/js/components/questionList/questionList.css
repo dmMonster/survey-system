@@ -3,11 +3,6 @@
     animation: fade-in .7s ease-in;
 }
 
-@media ( max-width: 768px) {
-    .questions-container {
-        padding: 0;
-    }
-}
 
 @keyframes fade-in {
     from {
@@ -52,12 +47,25 @@
     font-style: italic;
 }
 
-.edit-frame:hover {
+.edit-frame:hover, .edit-frame-touch {
     opacity: 1;
     border: 5px dotted #05d134;
     cursor: pointer;
     background-color: rgba(47, 47, 47, 0.54);
 }
+
+.question-delete {
+    display: flex;
+    padding: 2rem;
+    margin: 0 1rem;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.question-delete > *:hover {
+    color: #c52312;
+}
+
 
 .answers-list {
     list-style-type: none;
@@ -86,5 +94,12 @@
     border: 2px solid #a4c9ff;
 }
 
-
+@media ( max-width: 768px) {
+    .edit-frame {
+        font-size: 2em;
+    }
+    .questions-container {
+        padding: 0;
+    }
+}
 

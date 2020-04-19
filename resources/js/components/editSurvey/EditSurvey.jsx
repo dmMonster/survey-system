@@ -55,7 +55,7 @@ const EditSurvey = () => {
 
 
     return (
-        <div className="container">
+        <div className="container-md">
             <div>
                 <div className="row border">
                     <div className="col-md-3 p-3 text-center status">
