@@ -97,6 +97,26 @@ class QuestionTest extends TestCase
         $response->assertStatus(404);
     }
 
+    public function testUserGetQuestionsFromSpecificSurvey()
+    {
+        $user = factory(User::class)->create();
+        Airlock::actingAs($user);
+
+        $survey = factory(Survey::class)->state('token')->create([
+                'user_id' => $user->id,
+            ]
+        );
+
+        $question = factory(Question::class)->create([
+            'survey_id' => $survey->id,
+        ]);
+
+        $response = $this->get('/api/surveys/' . $survey->id . '/questions');
+        $response->assertStatus(200);
+
+        $response->assertJson(array($question->toArray()));
+    }
+
     public function testUserCanUpdateQuestion()
     {
         $user = factory(User::class)->create();

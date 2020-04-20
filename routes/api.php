@@ -22,7 +22,7 @@ Route::get("/logout", "Auth\LoginController@logout");
 Route::get("/isLogged", "Auth\LoginController@isLogged");
 
 
-Route::get("/surveys/{id}/questions", "QuestionController@index");
+
 Route::group(['middleware' => ['auth:airlock']], function () {
     Route::get("/users", "UserController@index")->middleware("isAdmin");
     Route::delete("/users/{id}", "UserController@destroy")->middleware("isAdmin");
@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth:airlock']], function () {
     Route::post("/surveys","SurveyController@store");
     Route::put("/surveys/{id}", "SurveyController@update");
 
+    Route::get("/surveys/{id}/questions", "QuestionController@index");
     Route::post("/surveys/{id}/questions", "QuestionController@store");
     Route::put("/questions/{id}","QuestionController@update");
     Route::delete("/questions/{id}", "QuestionController@delete");
