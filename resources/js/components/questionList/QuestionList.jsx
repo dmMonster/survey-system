@@ -35,10 +35,13 @@ const QuestionList = props => {
 
     function deleteQuestion(questionId, e) {
         e.stopPropagation();
-        alert("delete");
         setUpdating(true);
-        alert("updating");
-        setUpdating(false);
+        props.onStatusChange("Update in progress...");
+        surveyService.deleteQuestion(questionId).subscribe({
+            next() {props.onStatusChange("Saved.")},
+            error(){props.onStatusChange("Deleting error. Try again.")},
+            complete(){setUpdating(false)}
+        })
     }
 
     const [isTouch] = useState(('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));

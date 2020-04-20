@@ -18,7 +18,7 @@ function EditQuestion(props) {
         return (
             <div key={answer.id} className="d-flex align-items-center">
                 <input name={"answer"} className="answer" type="text" required={true}
-                       defaultValue={props.currentQuestion.answers[id] ? props.currentQuestion.answers[id].answer_text : "Your answer..."} onFocus={(e) => {
+                       defaultValue={props.currentQuestion && props.currentQuestion.answers[id] ? props.currentQuestion.answers[id].answer_text : "Your answer..."} onFocus={(e) => {
                     e.target.select()
                 }}/>
                 <div style={{cursor: "pointer"}} onClick={() => deleteAnswer(answer.id)}>

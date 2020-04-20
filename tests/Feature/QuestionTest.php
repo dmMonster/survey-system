@@ -174,13 +174,13 @@ class QuestionTest extends TestCase
             ]
         );
 
-         factory(Question::class)->create([
+        factory(Question::class)->create([
             'survey_id' => $survey->id,
         ]);
 
         $updatedQuestion = [
-          'question_text' => '',
-          'type' => 'non-exist',
+            'question_text' => '',
+            'type' => 'non-exist',
         ];
 
         $response = $this->putJson('/api/questions/' . '-1', $updatedQuestion);
@@ -190,7 +190,69 @@ class QuestionTest extends TestCase
         $this->assertArrayHasKey('id', $responseJson['errors'], 'Id error.');
         $this->assertArrayHasKey('question_text', $responseJson['errors'], 'Question text error.');
         $this->assertArrayHasKey('type', $responseJson['errors'], 'Question type error.');
-
-
     }
+
+    //delete question
+
+    public function testUserCanDeleteQuestion()
+    {
+        $user = factory(User::class)->create();
+        Airlock::actingAs($user);
+
+        $survey = factory(Survey::class)->state('token')->create([
+                'user_id' => $user->id,
+            ]
+        );
+
+        $question = factory(Question::class)->create([
+            'survey_id' => $survey->id,
+        ]);
+
+        $response = $this->delete('/api/questions/' . $question->id);
+        $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('questions', $question->toArray());
+    }
+
+    public function testUserCanNotDeleteOtherUserQuestion()
+    {
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        Airlock::actingAs($user2);
+
+        $survey = factory(Survey::class)->state('token')->create([
+                'user_id' => $user->id,
+            ]
+        );
+
+        $question = factory(Question::class)->create([
+            'survey_id' => $survey->id,
+        ]);
+
+        $response = $this->delete('/api/questions/' . $question->id);
+        $response->assertStatus(404);
+    }
+
+
+    public function testAdminCanDeleteAnyQuestion()
+    {
+        $user = factory(User::class)->create();
+        $admin = factory(User::class)->state('admin')->create();
+        Airlock::actingAs($admin);
+
+        $survey = factory(Survey::class)->state('token')->create([
+                'user_id' => $user->id,
+            ]
+        );
+
+        $question = factory(Question::class)->create([
+            'survey_id' => $survey->id,
+        ]);
+
+        $response = $this->delete('/api/questions/' . $question->id);
+        $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('questions', $question->toArray());
+    }
+
 }

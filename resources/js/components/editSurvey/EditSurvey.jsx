@@ -25,6 +25,7 @@ const EditSurvey = () => {
             .subscribe({
                 next() {
                     setStatus("Saved");
+                    updateQuestions();
                 },
                 error() {
                     setStatus("Saving Error. Refresh the page and try again.");

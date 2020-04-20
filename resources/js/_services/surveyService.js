@@ -8,6 +8,7 @@ export const surveyService = {
     getMySurveys,
     getSurveyQuestions,
     updateQuestion,
+    deleteQuestion,
 };
 
 function getMySurveys() {
@@ -54,6 +55,8 @@ function updateQuestion(questionId, questionText, questionType, answers = []) {
             answers: JSON.stringify(answers),
         })),
     });
+}
 
-
+function deleteQuestion(id) {
+    return from(axios.delete("/api/questions/" + id));
 }
