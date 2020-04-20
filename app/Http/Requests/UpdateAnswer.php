@@ -40,7 +40,6 @@ class UpdateAnswer extends FormRequest
     {
         return array_merge($this->request->all(), [
             'question_id' => $this->route('questionId'),
-            'answers' => json_decode($this->input('answers'), true),
         ]);
     }
 }

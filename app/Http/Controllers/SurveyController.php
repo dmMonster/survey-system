@@ -11,8 +11,11 @@ use Illuminate\Support\Facades\Validator;
 
 class SurveyController extends Controller
 {
-    public function index()
+    public function index(int $id = -1)
     {
+        if($id >= 0) {
+            return Survey::where('id', $id)->with(['questions', 'questions.answers'])->first();
+        }
         return Survey::where('user_id', Auth::id())->get();
     }
     public function store(Request $request)

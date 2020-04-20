@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './editSurvey.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faTasks, faCheck, faBars} from "@fortawesome/free-solid-svg-icons";
@@ -6,6 +6,7 @@ import EditQuestion from "../editQuestionModal/EditQuestion";
 import {surveyService} from "../../_services/surveyService";
 import EditSurveyForm from "./EditSurveyForm";
 import {faInfo} from "@fortawesome/free-solid-svg-icons/faInfo";
+import QuestionList from "../questionList/QuestionList";
 
 const EditSurvey = () => {
 
@@ -24,6 +25,7 @@ const EditSurvey = () => {
             .subscribe({
                 next() {
                     setStatus("Saved");
+                    updateQuestions();
                 },
                 error() {
                     setStatus("Saving Error. Refresh the page and try again.");
@@ -37,8 +39,24 @@ const EditSurvey = () => {
         setQuestionType(type);
     };
 
+    const [questions, setQuestions] = useState([]);
+    const [updatingQuestions, setUpdatingQuestions] = useState(true);
+    function updateQuestions() {
+        setUpdatingQuestions(true);
+        surveyService.getSurveyQuestions(1).subscribe({
+            next(response) {
+                setQuestions(response.data);
+                setUpdatingQuestions(false);
+            }
+        })
+    }
+    useEffect(() => {
+        updateQuestions();
+    }, []);
+
+
     return (
-        <div className="container">
+        <div className="container-md">
             <div>
                 <div className="row border">
                     <div className="col-md-3 p-3 text-center">
@@ -48,6 +66,7 @@ const EditSurvey = () => {
                         <span className="text-black-50 font-weight-bold">Status: </span><span>{status}</span>
                     </div>
                     <div className="col-md-9">
+
                         <EditSurveyForm
                             onSaving={() => {
                                 setStatus('Saving...')
@@ -58,15 +77,16 @@ const EditSurvey = () => {
                             onSavingError={(errorResponse) => {
                                 errorResponse.status === 422 ? setStatus('Invalid Data.') : setStatus('Unknown error.')
                             }}/>
+
                     </div>
                 </div>
                 <div>
-                    <div>
-                        Question 1
-                    </div>
-                    <div>
-                        Qeustion 2
-                    </div>
+
+                    <QuestionList questions={questions} updatingQuestions={updatingQuestions} editMode={true} onStatusChange={(status) => {
+                        updateQuestions();
+                        setStatus(status);
+                    }}/>
+
                 </div>
                 <div className="add-question">
                     <div className="dashed-line"/>
@@ -88,8 +108,9 @@ const EditSurvey = () => {
                         <div>Text answer</div>
                     </div>
 
-                    <EditQuestion questionType={questionType} showModal={showModal} onClose={closeModal}
-                                  onSave={saveQuestionForm}/>
+                    {showModal && <EditQuestion questionType={questionType} showModal={showModal} onClose={closeModal}
+                                                onSave={saveQuestionForm}/>
+                    }
 
                 </div>
             </div>

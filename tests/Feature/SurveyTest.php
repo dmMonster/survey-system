@@ -97,6 +97,19 @@ class SurveyTest extends TestCase
         $response->assertStatus(401);
     }
 
+    public function testGetSpecificSurvey()
+    {
+        $user = factory(User::class)->create();
+        Airlock::actingAs($user);
+
+        $survey = factory(Survey::class)->state('token')->create([
+            'user_id' => $user->id,
+        ]);
+        $response = $this->get('/api/surveys/' . $survey->id);
+
+        $response->assertStatus(200);
+        $response->assertJson($survey->toArray());
+    }
     //update specific survey
     public function testUserCanUpdateHisSurvey()
     {
