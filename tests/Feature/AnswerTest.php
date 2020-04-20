@@ -33,7 +33,7 @@ class AnswerTest extends TestCase
 
     public function testUserCanAddAnswerToQuestion()
     {
-        $response = $this->postJson('/api/surveys/' . $this->survey->id . '/questions/' . $this->question->id . '/answers', [
+        $response = $this->postJson('/api/questions/' . $this->question->id . '/answers', [
             'answers' => json_encode(['test1', 'test2', 'test3']),
         ]);
         $response->assertCreated();
@@ -44,7 +44,7 @@ class AnswerTest extends TestCase
 
     public function testUserGiveInvalidAnswer()
     {
-        $response = $this->postJson('/api/surveys/' . $this->survey->id . '/questions/' . $this->question->id . '/answers', [
+        $response = $this->postJson('/api/questions/' . $this->question->id . '/answers', [
             'answers' => json_encode(['']),
         ]);
         $response->assertStatus(422);
@@ -52,15 +52,7 @@ class AnswerTest extends TestCase
 
     public function testUserCannotAddAnswerToNotExistQuestion()
     {
-        $response = $this->postJson('/api/surveys/' . $this->survey->id . '/questions/' . ($this->question->id + 100) . '/answers', [
-            'answers' => json_encode(['test1', 'test2', 'test3']),
-        ]);
-        $response->assertStatus(422);
-    }
-
-    public function testUserCannotAddAnswerToNotExistSurvey()
-    {
-        $response = $this->postJson('/api/surveys/' . ($this->survey->id + 100) . '/questions/' . $this->question->id . '/answers', [
+        $response = $this->postJson('/api/questions/' . ($this->question->id + 100) . '/answers', [
             'answers' => json_encode(['test1', 'test2', 'test3']),
         ]);
         $response->assertStatus(422);
@@ -71,7 +63,7 @@ class AnswerTest extends TestCase
         $user2 = factory(User::class)->create();
         Airlock::actingAs($user2);
 
-        $response = $this->postJson('/api/surveys/' . $this->survey->id . '/questions/' . $this->question->id . '/answers', [
+        $response = $this->postJson('/api/questions/' . $this->question->id . '/answers', [
             'answers' => json_encode(['test1', 'test2', 'test3']),
         ]);
         $response->assertStatus(403);
@@ -101,7 +93,7 @@ class AnswerTest extends TestCase
     public function testUserGiveInvalidAnswersToUpdate()
     {
         $response = $this->putJson('/api/questions/' . $this->question->id . '/answers', [
-            'answers' => json_encode(['', null, 1]),
+            'answers' => ['', null, 1],
         ]);
         $response->assertStatus(422);
         $responseJson = $response->json();
