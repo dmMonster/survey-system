@@ -7,6 +7,7 @@ import {surveyService} from "../../_services/surveyService";
 import EditSurveyForm from "./EditSurveyForm";
 import {faInfo} from "@fortawesome/free-solid-svg-icons/faInfo";
 import QuestionList from "../questionList/QuestionList";
+import {useParams} from "react-router-dom";
 
 const EditSurvey = () => {
 
@@ -17,11 +18,12 @@ const EditSurvey = () => {
         setShowModal(false);
     };
 
+    let surveyId = useParams().id;
     const [status, setStatus] = useState("Saved.");
     const saveQuestionForm = (formData) => {
         setShowModal(false);
         setStatus("Saving...");
-        surveyService.saveQuestion(1, formData.get("question_text"), questionType, formData.getAll('answer'))
+        surveyService.saveQuestion(surveyId, formData.get("question_text"), questionType, formData.getAll('answer'))
             .subscribe({
                 next() {
                     setStatus("Saved");
@@ -43,7 +45,7 @@ const EditSurvey = () => {
     const [updatingQuestions, setUpdatingQuestions] = useState(true);
     function updateQuestions() {
         setUpdatingQuestions(true);
-        surveyService.getSurveyQuestions(1).subscribe({
+        surveyService.getSurveyQuestions(surveyId).subscribe({
             next(response) {
                 setQuestions(response.data);
                 setUpdatingQuestions(false);
