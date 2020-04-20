@@ -49,4 +49,13 @@ class SurveyController extends Controller
                 'end_date' => $request->input('end_date'),
             ]);
     }
+
+    public function delete(int $id)
+    {
+        $survey = Survey::where('id', $id)->first();
+        if(Auth::user()->checkAdmin() || intval($survey->user_id) === Auth::id()) {
+            return $survey->delete();
+        }
+        return response('', 401);
+    }
 }

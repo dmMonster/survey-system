@@ -9,6 +9,7 @@ export const surveyService = {
     getSurveyQuestions,
     updateQuestion,
     deleteQuestion,
+    deleteSurvey,
 };
 
 function getMySurveys() {
@@ -43,6 +44,10 @@ function saveQuestion(surveyId, questionText, questionType, answers = []) {
         })
     )
 }
+
+function deleteSurvey(id) {
+    return from(axios.delete("/api/surveys/" + id));
+} 
 
 function updateQuestion(questionId, questionText, questionType, answers = []) {
     return forkJoin({

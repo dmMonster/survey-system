@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 
 const SurveyList = () => {
 
-    const [surveys, setSurveys] = useState([]);
+    const [surveys, setSurveys] = useState(null);
     useEffect(() => {
         surveyService.getMySurveys().subscribe({
             next(response) {
@@ -20,7 +20,7 @@ const SurveyList = () => {
         })
     }, []);
 
-    const surveyList = surveys.map((survey) => {
+    const surveyList = (surveys !==null ? surveys : []).map((survey) => {
         return (
             <tr key={survey.id}>
                 <td>
@@ -46,7 +46,7 @@ const SurveyList = () => {
                                 <div>Analyze Results</div>
                             </div>
                         </Link>
-                        <Link to={"#"}>
+                        <Link to={"/dashboard/surveys/" + survey.id + "/delete"}>
                             <div className="action-link">
                                 <FontAwesomeIcon icon={faTrash} color={"#df6c62"} size={"2x"}/>
                                 <div>Delete</div>
@@ -73,7 +73,7 @@ const SurveyList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {surveys.length > 0 ? surveyList : <tr>
+                {surveys !== null ? surveyList : <tr>
                     <td><Loader type="Rings" color={"#1aa878"}/></td>
                 </tr>}
                 </tbody>
