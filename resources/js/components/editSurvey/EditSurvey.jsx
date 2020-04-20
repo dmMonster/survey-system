@@ -59,7 +59,7 @@ const EditSurvey = () => {
         <div className="container-md">
             <div>
                 <div className="row border">
-                    <div className="col-md-3 p-3 text-center status">
+                    <div className="col-md-3 p-3 text-center">
                         <div className="dashed-line pb-3">
                             <FontAwesomeIcon icon={faInfo} size={'5x'}/>
                         </div>
