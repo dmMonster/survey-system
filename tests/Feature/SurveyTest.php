@@ -172,4 +172,50 @@ class SurveyTest extends TestCase
 
         $this->assertDatabaseHas('surveys', $newSurveyData);
     }
+
+    //deleting survey
+    public function testUserCanDeleteTheirOwnSurvey()
+    {
+        $user = factory(User::class)->create();
+        Airlock::actingAs($user);
+
+        $survey = factory(Survey::class)->state('token')->create([
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this->delete('/api/surveys/' . $survey->id);
+        $response->assertStatus(200);
+
+        $this->assertDatabaseMissing('surveys', $survey->toArray());
+    }
+
+    public function testUserCanNotDeleteOtherUserSurvey()
+    {
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        Airlock::actingAs($user2);
+
+        $survey = factory(Survey::class)->state('token')->create([
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this->delete('/api/surveys/' . $survey->id);
+        $response->assertStatus(401);
+    }
+
+    public function testAdminCanDeleteAnySurvey()
+    {
+        $user = factory(User::class)->create();
+        $admin = factory(User::class)->state('admin')->create();
+        Airlock::actingAs($admin);
+
+        $survey = factory(Survey::class)->state('token')->create([
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this->delete('/api/surveys/' . $survey->id);
+        $response->assertStatus(200);
+
+        $this->assertDatabaseMissing('surveys', $survey->toArray());
+    }
 }

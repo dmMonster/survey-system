@@ -7,6 +7,7 @@ import DeleteUser from "../deleteUser/DeleteUser";
 import CreateSurvey from "../createSurvey/CreateSurvey";
 import EditSurvey from "../editSurvey/EditSurvey";
 import SurveyList from "../surveyList/SurveyList";
+import DeleteSurvey from "../surveyList/DeleteSurvey";
 
 const Dashboard = () => {
 
@@ -48,6 +49,9 @@ const Dashboard = () => {
             </Route>
             <Route path={"/dashboard/surveys/:id/edit"}>
                 <EditSurvey/>
+            </Route>
+            <Route path={"/dashboard/surveys/:id/delete"}>
+                <DeleteSurvey/>
             </Route>
             <Route path={"/dashboard/surveys-list"}>
                 <SurveyList/>

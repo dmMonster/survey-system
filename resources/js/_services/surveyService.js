@@ -6,6 +6,7 @@ export const surveyService = {
     updateSurvey,
     saveQuestion,
     getMySurveys,
+    deleteSurvey,
 };
 
 function getMySurveys() {
@@ -35,4 +36,8 @@ function saveQuestion(surveyId, questionText,questionType, answers = []) {
             }
         })
     )
+}
+
+function deleteSurvey(id) {
+    return from(axios.delete("/api/surveys/" + id));
 }
