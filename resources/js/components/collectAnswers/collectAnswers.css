@@ -1,0 +1,46 @@
+.link-box {
+    background-color: #d6e6ee;
+    padding: 2rem;
+    border-radius: 12px;
+    color: #7f888d;
+    box-shadow: 0 0 25px #647e94;
+    font-style: italic;
+    margin: 1rem;
+}
+
+.link {
+    border: 2px solid #a9c4ff;
+    background-color: white;
+    border-radius: 15px;
+    display: flex;
+    padding: 3px 1rem;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.3rem;
+}
+
+.link > div:first-child {
+    width: 90%;
+}
+
+.link input {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+}
+
+.btn-copy-link {
+    border-radius: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #2c8dd1;
+    color: white;
+    border: 2px solid #2c8dd1;
+    padding: 4px 8px;
+    margin-left: 12px;
+}
+
+.btn-copy-link:hover {
+    background-color: white;
+    color: #5278ce;
+}
