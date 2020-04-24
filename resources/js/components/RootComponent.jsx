@@ -14,6 +14,7 @@ import store from "../store";
 import PrivateRoute from "./privateRoute/PrivateRoute";
 import {history} from '../history';
 import PublicRoute from "./publicRoute/PublicRoute";
+import StartSurvey from "./startSurvey/StartSurvey";
 
 
 
@@ -44,6 +45,9 @@ function RootComponent() {
 
                 </Switch>
 
+                <Route path={"/survey/solve/:token"}>
+                    <StartSurvey/>
+                </Route>
 
                 <Footer/>
 
