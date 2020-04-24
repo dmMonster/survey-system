@@ -34,10 +34,10 @@ const SurveyList = () => {
                                 <div>Edit</div>
                             </div>
                         </Link>
-                        <Link to={"#"}>
+                        <Link to={"/dashboard/surveys/share/" + survey.token}>
                             <div className="action-link">
                                 <FontAwesomeIcon icon={faUserFriends} color={"#388016"} size={"2x"}/>
-                                <div>Collect Answers</div>
+                                <div>Get Responses</div>
                             </div>
                         </Link>
                         <Link to={"#"}>
