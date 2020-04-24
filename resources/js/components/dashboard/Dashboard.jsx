@@ -8,6 +8,7 @@ import CreateSurvey from "../createSurvey/CreateSurvey";
 import EditSurvey from "../editSurvey/EditSurvey";
 import SurveyList from "../surveyList/SurveyList";
 import DeleteSurvey from "../surveyList/DeleteSurvey";
+import CollectAnswers from "../collectAnswers/CollectAnswers";
 
 const Dashboard = () => {
 
@@ -52,6 +53,9 @@ const Dashboard = () => {
             </Route>
             <Route path={"/dashboard/surveys/:id/delete"}>
                 <DeleteSurvey/>
+            </Route>
+            <Route path={"/dashboard/surveys/share/:token"}>
+                <CollectAnswers/>
             </Route>
             <Route path={"/dashboard/surveys-list"}>
                 <SurveyList/>
