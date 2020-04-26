@@ -18,6 +18,12 @@ class SurveyController extends Controller
         }
         return Survey::where('user_id', Auth::id())->get();
     }
+
+    public function startSurvey(string $token)
+    {
+        return Survey::where('token', $token)->with(['questions', 'questions.answers'])->first();
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(['name', 'description', 'end_date']), [

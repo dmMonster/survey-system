@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Result extends Model
 {
+    protected $fillable = ['respondent_id', 'survey_id'];
+
     public function respondent()
     {
         return $this->belongsTo(Respondent::class);

@@ -11,6 +11,7 @@ export const surveyService = {
     updateQuestion,
     deleteQuestion,
     deleteSurvey,
+    startSurvey,
 };
 
 function getMySurveys() {
@@ -19,6 +20,10 @@ function getMySurveys() {
 
 function getSpecificSurvey(id) {
     return from(axios.get("/api/surveys/" + id));
+}
+
+function startSurvey(token) {
+    return from(axios.get("/api/surveys/" + token + "/start"));
 }
 
 function getSurveyQuestions(surveyId) {
@@ -61,7 +66,7 @@ function updateQuestion(questionId, questionText, questionType, answers = []) {
             type: questionType,
         })),
 
-        answers: from(axios.put("/api/questions/" + questionId + "/answers",{
+        answers: from(axios.put("/api/questions/" + questionId + "/answers", {
             answers: JSON.stringify(answers),
         })),
     });

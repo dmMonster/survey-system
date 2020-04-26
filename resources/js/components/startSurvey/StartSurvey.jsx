@@ -4,22 +4,29 @@ import {surveyService} from "../../_services/surveyService";
 import './startSurvey.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPollH} from "@fortawesome/free-solid-svg-icons";
+import {useParams} from 'react-router-dom';
 
 function StartSurvey() {
 
     const [survey, setSurvey] = useState({
         questions: [],
     });
+
+    let {token} = useParams();
     useEffect(() => {
-        surveyService.getSpecificSurvey(1).subscribe({
+        surveyService.startSurvey(token).subscribe({
             next(res) {
                 setSurvey(res.data)
             }
         })
     }, []);
 
-    function saveResult(response) {
-        console.log(response);
+    function saveResult(responses) {
+        console.log(responses);
+        axios.post("/api/results",{
+            surveyId: survey.id,
+            responses: responses,
+        })
     }
 
 
