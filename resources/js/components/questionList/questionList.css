@@ -103,3 +103,35 @@
     }
 }
 
+.missing-answer {
+    border: 5px dashed rgba(255, 39, 7, 0.83);
+}
+
+@keyframes hide-alert {
+    0%{
+        opacity: 1;
+    }
+    85% {
+        opacity: 0.9;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.missing-answer-alert {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2rem;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    background-color: rgb(255, 39, 0);
+    animation: hide-alert 4s ease-out;
+    opacity: 0;
+}
+
