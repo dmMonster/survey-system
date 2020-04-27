@@ -21,6 +21,7 @@ Route::get("/logout", "Auth\LoginController@logout");
 
 Route::get("/isLogged", "Auth\LoginController@isLogged");
 
+Route::get("/surveys/{token}/start", "SurveyController@startSurvey");
 Route::post("/results", "ResultController@store");
 
 Route::group(['middleware' => ['auth:airlock']], function () {
@@ -42,9 +43,6 @@ Route::group(['middleware' => ['auth:airlock']], function () {
 
     Route::post("/questions/{questionId}/answers", "AnswerController@store");
     Route::put("/questions/{questionId}/answers", "AnswerController@update");
-
-    Route::get("/surveys/{token}/start", "SurveyController@startSurvey");
-
 });
 
 
