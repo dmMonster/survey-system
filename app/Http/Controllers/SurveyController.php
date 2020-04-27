@@ -21,7 +21,13 @@ class SurveyController extends Controller
 
     public function startSurvey(string $token)
     {
-        return Survey::where('token', $token)->with(['questions', 'questions.answers'])->first();
+        $survey =  Survey::where('token', $token)->with(['questions', 'questions.answers'])->firstOrFail();
+
+        if(time() > strtotime($survey->end_date)) {
+            return response('The survey is over.', 403);
+        }
+
+        return $survey;
     }
 
     public function store(Request $request)

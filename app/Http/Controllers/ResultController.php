@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\GivenAnswer;
+use App\Http\Requests\StoreResult;
 use App\Respondent;
 use App\Result;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ResultController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreResult $request)
     {
         DB::beginTransaction();
 
@@ -25,37 +24,19 @@ class ResultController extends Controller
             'system' => $os,
         ]);
 
-        $responsesToInsert = [];
         $result = Result::create([
             'respondent_id' => $respondent->id,
-            'survey_id' => $request->input('surveyId'),
+            'survey_id' => $request->input('survey_id'),
         ]);
 
-
-        foreach ($request->input('responses') as $questionId => $response) {
-            $i = 0;
-            do {
-                array_push($responsesToInsert, [
-                    'result_id' => $result->id,
-                    'question_id' => $questionId,
-                    'answer_id' => isset($response['answerIds'][$i]) ? $response['answerIds'][$i] : null,
-                    'text_answer' => $response['answerText'],
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ]);
-                $i++;
-            } while ($i < count($response['answerIds']));
-
-
-        }
-        unset($answer);
-
-        if (GivenAnswer::insert($responsesToInsert)) {
+        $responses = new GivenAnswer();
+        if ($responses->storeResponses($request->input('responses'), $result->id)) {
             Db::commit();
             return response(null, 200);
         }
 
         DB::rollBack();
-        return response('Insert Error', 500);
+        return abort(500, 'DB transaction error. The results cannot be saved.' );
+
     }
 }

@@ -24,7 +24,7 @@ function StartSurvey() {
     function saveResult(responses) {
         console.log(responses);
         axios.post("/api/results",{
-            surveyId: survey.id,
+            survey_id: survey.id,
             responses: responses,
         })
     }
