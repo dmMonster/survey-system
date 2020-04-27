@@ -10,10 +10,23 @@ export const surveyService = {
     updateQuestion,
     deleteQuestion,
     deleteSurvey,
+    startSurvey,
+    collectAnswers,
 };
 
 function getMySurveys() {
     return from(axios.get("/api/surveys"));
+}
+
+function startSurvey(token) {
+    return from(axios.get("/api/surveys/" + token + "/start"));
+}
+
+function collectAnswers(responses, surveyId) {
+    return from(axios.post("/api/results", {
+        responses: responses,
+        survey_id: surveyId,
+    }));
 }
 
 function getSurveyQuestions(surveyId) {
@@ -47,7 +60,7 @@ function saveQuestion(surveyId, questionText, questionType, answers = []) {
 
 function deleteSurvey(id) {
     return from(axios.delete("/api/surveys/" + id));
-} 
+}
 
 function updateQuestion(questionId, questionText, questionType, answers = []) {
     return forkJoin({
@@ -56,7 +69,7 @@ function updateQuestion(questionId, questionText, questionType, answers = []) {
             type: questionType,
         })),
 
-        answers: from(axios.put("/api/questions/" + questionId + "/answers",{
+        answers: from(axios.put("/api/questions/" + questionId + "/answers", {
             answers: JSON.stringify(answers),
         })),
     });
