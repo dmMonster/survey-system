@@ -6,24 +6,27 @@ export const surveyService = {
     updateSurvey,
     saveQuestion,
     getMySurveys,
-    getSpecificSurvey,
     getSurveyQuestions,
     updateQuestion,
     deleteQuestion,
     deleteSurvey,
     startSurvey,
+    collectAnswers,
 };
 
 function getMySurveys() {
     return from(axios.get("/api/surveys"));
 }
 
-function getSpecificSurvey(id) {
-    return from(axios.get("/api/surveys/" + id));
-}
-
 function startSurvey(token) {
     return from(axios.get("/api/surveys/" + token + "/start"));
+}
+
+function collectAnswers(responses, surveyId) {
+    return from(axios.post("/api/results", {
+        responses: responses,
+        survey_id: surveyId,
+    }));
 }
 
 function getSurveyQuestions(surveyId) {
