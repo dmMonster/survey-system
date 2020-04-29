@@ -1,18 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Route, Redirect} from 'react-router-dom';
-import {authService} from "../../_services/authService";
 import Loader from 'react-loader-spinner'
+import {useDispatch, useSelector} from "react-redux";
+import {getLoggedUser} from "../../actions";
 
 const PrivateRoute = ({children, ...rest}) => {
 
-    const [isLoading, setLoading] = useState(true);
-    const [isLogged, setLogged] = useState(true);
+    const isLoading = useSelector(state => state.authReducer.pending);
+    const authenticated = useSelector(state => state.authReducer.authenticated);
 
+    const dispatch = useDispatch();
     useEffect(() => {
-        authService.isLogged().then(response => {
-            setLogged(response.data);
-            setLoading(false);
-        })
+        dispatch(getLoggedUser());
     }, []);
 
     return (
@@ -29,7 +28,7 @@ const PrivateRoute = ({children, ...rest}) => {
             <Route
                 {...rest}
                 render={({location}) =>
-                    isLogged ? (
+                    (authenticated === true) ? (
                         children
                     ) : (
                         <Redirect

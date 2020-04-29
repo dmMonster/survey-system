@@ -1,9 +1,13 @@
 const initialState =
     {
-        isAuthorized: false,
-        user: "...",
+        authenticated: false,
+        pending: true,
+        user: {
+            name: '',
+            email: '',
+            is_admin: false,
+        },
         errors: {},
-        //abilities: ["non-admin", "admin-test", "user", "admin"],
     };
 
 export const authReducer = (state = initialState, action) => {
@@ -12,8 +16,9 @@ export const authReducer = (state = initialState, action) => {
             return (
                 {
                     ...state,
-                    isAuthorized: true,
-                    user: action.user.email,
+                    authenticated: true,
+                    pending: false,
+                    user: action.user,
                 }
             );
 
@@ -21,12 +26,16 @@ export const authReducer = (state = initialState, action) => {
             return (
                 {
                     ...state,
-                    isAuthorized: true,
-                    user: "",
+                    authenticated: false,
+                    pending: false,
                     errors: action.errors,
                 }
             );
 
+        case 'CLEAR_CREDENTIALS':
+            return {
+                initialState
+            };
         default:
             return state
     }

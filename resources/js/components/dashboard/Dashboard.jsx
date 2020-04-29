@@ -9,6 +9,7 @@ import EditSurvey from "../editSurvey/EditSurvey";
 import SurveyList from "../surveyList/SurveyList";
 import DeleteSurvey from "../surveyList/DeleteSurvey";
 import CollectAnswers from "../collectAnswers/CollectAnswers";
+import {useSelector} from "react-redux";
 
 const Dashboard = () => {
 
@@ -19,8 +20,12 @@ const Dashboard = () => {
             history.push("/");
         });
     };
+
+    const user = useSelector(state => state.authReducer.user);
+
     return (
         <div>
+            {"user: " + user.name + " | "}
             Dashboard
             <button onClick={logout} className="btn btn-outline-info btn-lg text-black-50">Logout</button>
 

@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import './login.css';
-import {Link} from "react-router-dom";
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {login} from "../../actions";
+import {clearCredentials, login} from "../../actions";
 import AuthAlert from "../authAlert/AuthAlert";
 
 function Login() {
@@ -11,6 +10,11 @@ function Login() {
     const history = useHistory();
 
     const clickOutsideHandler = () => {
+       closeLoginForm();
+    };
+
+    const closeLoginForm = () => {
+        authDispatch(clearCredentials());
         history.push("/");
     };
 
@@ -38,7 +42,7 @@ function Login() {
                 <AuthAlert errors={authErrors}/>
                 <form className="p-3 rounded fade-in-form" onSubmit={submitForm}>
                     <div className="login-modal-close">
-                        <Link to={"/"}>&times;</Link>
+                        <div onClick={closeLoginForm}>&times;</div>
                     </div>
                     <div className="form-group">
                         <label htmlFor="email">Email address</label>
