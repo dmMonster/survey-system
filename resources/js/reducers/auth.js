@@ -3,6 +3,7 @@ const initialState =
         authenticated: false,
         pending: true,
         user: {
+            id: -1,
             name: '',
             email: '',
             is_admin: false,

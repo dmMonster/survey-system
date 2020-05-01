@@ -10,6 +10,9 @@ import SurveyList from "../surveyList/SurveyList";
 import DeleteSurvey from "../surveyList/DeleteSurvey";
 import CollectAnswers from "../collectAnswers/CollectAnswers";
 import {useSelector} from "react-redux";
+import './mainNavigation.css';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faIdCard, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = () => {
 
@@ -25,15 +28,30 @@ const Dashboard = () => {
 
     return (
         <div>
-            {"user: " + user.name + " | "}
-            Dashboard
-            <button onClick={logout} className="btn btn-outline-info btn-lg text-black-50">Logout</button>
+            <nav className="navigation">
+                <div>
+                    <Link className="navigation-main-page" to={"/"}>
+                        Dashboard
+                    </Link>
+                </div>
+                <div className="navigation-options">
+                    <Link className="navigation-profile" to={"/dashboard/users/" + user.id + "/edit"}>
+                        <FontAwesomeIcon icon={faIdCard}/>
+                        {user.name}
+                    </Link>
+                    <div className="navigation-sing-out" onClick={logout}>
+                        <FontAwesomeIcon icon={faSignOutAlt} size={'2x'}/>
+                        Logout
+                    </div>
+                </div>
+            </nav>
 
-            <Link to={"/dashboard/surveys/add"} >
+
+            <Link to={"/dashboard/surveys/add"}>
                 <button className="btn btn-primary">Create Survey</button>
             </Link>
 
-            <Link to={"/dashboard/userList"} >
+            <Link to={"/dashboard/userList"}>
                 <button className="btn btn-primary">UserList</button>
             </Link>
 
@@ -44,9 +62,9 @@ const Dashboard = () => {
             <Route path={"/dashboard/userList"}>
                 <UserList/>
             </Route>
-           <Route path={"/dashboard/users/:id/edit"}>
-               <EditUser/>
-           </Route>
+            <Route path={"/dashboard/users/:id/edit"}>
+                <EditUser/>
+            </Route>
             <Route path={"/dashboard/users/:id/delete"}>
                 <DeleteUser/>
             </Route>

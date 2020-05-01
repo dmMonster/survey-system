@@ -29,6 +29,7 @@ const loginSuccessful = (user) => {
     return {
         type: "LOGIN_SUCCESS",
         user: {
+            id: user.id,
             name: user.name,
             email: user.email,
             is_admin: user.is_admin,
