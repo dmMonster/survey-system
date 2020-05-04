@@ -54,7 +54,6 @@ const Dashboard = () => {
 
             <div className="dashboard-container container-md">
                 <nav className="survey-navigation">
-
                     <Link className="survey-navigation-link" to={"/dashboard/surveys/add"}>
                         <FontAwesomeIcon icon={faPlusCircle} size={"4x"}/>
                         <span className="">Create Survey</span>
@@ -65,10 +64,10 @@ const Dashboard = () => {
                         <span>Survey List</span>
                     </Link>
 
-                    <Link className="survey-navigation-link" to={"/dashboard/userList"}>
+                    { !!user.is_admin && (<Link className="survey-navigation-link" to={"/dashboard/userList"}>
                         <FontAwesomeIcon icon={faUsers} size={"4x"}/>
                         <span>UserList</span>
-                    </Link>
+                    </Link>)}
                 </nav>
                 <hr/>
 

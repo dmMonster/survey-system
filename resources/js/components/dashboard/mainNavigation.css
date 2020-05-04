@@ -70,13 +70,12 @@
 }
 
 .dashboard-container {
-    min-height: 83vh;
+    min-height: 82.1vh;
 }
 
 .survey-navigation {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 100px 100px;
     justify-content: space-between;
     margin-top: 15px;
     border-top: 4px solid #008573;
