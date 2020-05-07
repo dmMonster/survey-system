@@ -3,8 +3,8 @@ import {history} from "../history";
 
 const login = (user) => {
     return dispatch => {
-        authService.login(user.email, user.password).then(() => {
-            dispatch(loginSuccessful(user));
+        authService.login(user.email, user.password).then((response) => {
+            dispatch(loginSuccessful(response.data));
             history.push("/dashboard");
         })
             .catch(errors => {
@@ -14,11 +14,26 @@ const login = (user) => {
 
 };
 
+const getLoggedUser = () => {
+    return dispatch => {
+        authService.user().then((response) => {
+            dispatch(loginSuccessful(response.data));
+        })
+            .catch((errors) => {
+                dispatch(loginFailed(errors.response.data.errors));
+            })
+    }
+};
 
 const loginSuccessful = (user) => {
     return {
         type: "LOGIN_SUCCESS",
-        user
+        user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            is_admin: user.is_admin,
+        }
     }
 };
 
@@ -29,7 +44,14 @@ const loginFailed = (errors) => {
     }
 };
 
+const clearCredentials = () => {
+    return {
+        type: "CLEAR_CREDENTIALS",
+    }
+};
 
 export {
-    login
+    login,
+    getLoggedUser,
+    clearCredentials,
 }
