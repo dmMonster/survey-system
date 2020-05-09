@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import ChartJs from 'chart.js';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import './chart.css';
 
 const Chart = props => {
         const canvas = useRef(null);
@@ -78,15 +79,14 @@ const Chart = props => {
         }
 
         return (
-            <div>
+            <div className="canvas-container" >
                 <h2 className="text-center">{props.title}</h2>
                 <h5>Chart type</h5>
                 <button className="btn btn-secondary" onClick={() => setChartType('bar')}>Bar</button>
                 <button className="btn btn-secondary" onClick={() => setChartType('pie')}>Pie</button>
                 <button className="btn btn-secondary" onClick={() => setChartType('radar')}>Radar</button>
-                
-                <canvas ref={canvas} height="150px">
-                </canvas>
+
+                <canvas ref={canvas} height="140"/>
             </div>
         );
     }
