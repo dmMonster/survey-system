@@ -1,14 +1,36 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Chart from "../chart/Chart";
+import AnswersList from "../surveyResultAnswersList/AnswersList";
 
 
 const SurveyResult = () => {
 
+    const [questions, setQuestions] = useState(null);
+    useEffect(() => {
+        axios.get('/api/results').then((response) => {
+            console.log(response.data);
+            setQuestions(response.data.questions);
+        })
+    }, []);
+
     return (
         <div>
-           <Chart title={'Question lorem ipsum 1?'} labels={['To jest bardzo długie pytanie i na pewno nie zmieści się w jednej lini. Coś jeszcze muszę tu napisać, ale nie wiem co. Może, albo nie.', 'B', 'C', 'D']} dataset={[100, 50, 33, 20]}/>
-            <Chart title={'Question lorem ipsum 1?'} labels={['A', 'B', 'C', 'D','E','F', 'G', 'H', 'I', 'J']} dataset={[100, 50, 33, 20, 10, 5, 11, 1, 12,5]}/>
-            <Chart title={'Question lorem ipsum 1?'} labels={['A', 'B', 'C', 'D']} dataset={[100, 50, 33, 20]}/>
+            {questions && (
+                questions.map(question => {
+                    return (
+                        <div key={question.id}>
+                            {question.type !== 'text' ? (
+                                    <Chart title={question.question_text}
+                                           labels={question.answers.map(v => v.answer_text)}
+                                           dataset={question.answers.map(v => v.given_answers_count)}/>)
+                                : <AnswersList question={question.question_text} answers={question.text_answers.map(v => v.text_answer)}/>
+                            }
+                        </div>
+                    )
+                })
+            )}
+
+
         </div>
     );
 };

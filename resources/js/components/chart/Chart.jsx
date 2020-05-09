@@ -79,14 +79,17 @@ const Chart = props => {
         }
 
         return (
-            <div className="canvas-container" >
-                <h2 className="text-center">{props.title}</h2>
-                <h5>Chart type</h5>
-                <button className="btn btn-secondary" onClick={() => setChartType('bar')}>Bar</button>
-                <button className="btn btn-secondary" onClick={() => setChartType('pie')}>Pie</button>
-                <button className="btn btn-secondary" onClick={() => setChartType('radar')}>Radar</button>
+            <div className="canvas-container card mb-3" >
+                <h2 className="text-center card-header">{props.title}</h2>
+                <div className="card-body">
+                    <h5>Chart type</h5>
+                    <button className="btn btn-secondary m-1" onClick={() => setChartType('bar')}>Bar</button>
+                    <button className="btn btn-secondary m-1" onClick={() => setChartType('pie')}>Pie</button>
+                    <button className="btn btn-secondary m-1" onClick={() => setChartType('radar')}>Radar</button>
 
-                <canvas ref={canvas} height="140"/>
+                    <canvas ref={canvas} height="140"/>
+                </div>
+
             </div>
         );
     }
