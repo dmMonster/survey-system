@@ -32,17 +32,20 @@ Route::group(['middleware' => ['auth:airlock']], function () {
 
     Route::get("/surveys", "SurveyController@index");
     Route::get("/surveys/{id}", "SurveyController@index");
-    Route::post("/surveys","SurveyController@store");
+    Route::post("/surveys", "SurveyController@store");
     Route::put("/surveys/{id}", "SurveyController@update");
     Route::delete("/surveys/{id}", "SurveyController@delete");
 
     Route::get("/surveys/{id}/questions", "QuestionController@index");
     Route::post("/surveys/{id}/questions", "QuestionController@store");
-    Route::put("/questions/{id}","QuestionController@update");
+    Route::put("/questions/{id}", "QuestionController@update");
     Route::delete("/questions/{id}", "QuestionController@delete");
 
     Route::post("/questions/{questionId}/answers", "AnswerController@store");
     Route::put("/questions/{questionId}/answers", "AnswerController@update");
+
+    Route::get("/surveys/{id}/results", "ResultController@index");
+    Route::get("/surveys/{id}/respondents", "RespondentController@index");
 });
 
 

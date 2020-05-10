@@ -1,0 +1,8 @@
+.btn-see-answers {
+    cursor: pointer;
+}
+
+.btn-see-answers:hover {
+    opacity: 0.9;
+    filter: contrast(90%);
+}

@@ -40,7 +40,7 @@ const SurveyList = () => {
                                 <div>Get Responses</div>
                             </div>
                         </Link>
-                        <Link to={"#"}>
+                        <Link to={"/dashboard/surveys/" + survey.id + "/results"}>
                             <div className="action-link">
                                 <FontAwesomeIcon icon={faChartLine} color={"#388016"} size={"2x"}/>
                                 <div>Analyze Results</div>

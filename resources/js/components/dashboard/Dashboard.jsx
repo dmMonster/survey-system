@@ -19,6 +19,7 @@ import {
     faSignOutAlt,
     faUsers
 } from "@fortawesome/free-solid-svg-icons";
+import SurveyResult from "../surveyResult/SurveyResult";
 
 const Dashboard = () => {
 
@@ -88,6 +89,9 @@ const Dashboard = () => {
                 </Route>
                 <Route path={"/dashboard/surveys/:id/delete"}>
                     <DeleteSurvey/>
+                </Route>
+                <Route path={"/dashboard/surveys/:id/results"}>
+                    <SurveyResult/>
                 </Route>
                 <Route path={"/dashboard/surveys/share/:token"}>
                     <CollectAnswers/>
