@@ -44,7 +44,6 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $validate = Validator::make($request->all(['name', 'email', 'password']), [
             'name' =>['string', 'max:255'],
             'email' =>['string', 'email', 'max:255'],
@@ -55,10 +54,18 @@ class UserController extends Controller
             return response($validate->messages(),400);
         }
 
-        return User::where("id", $id)->first()->update([
+        if(!Auth::user()->checkAdmin()) {
+            $userId = Auth::id();
+            $isAdmin = false;
+        } else {
+            $userId = $id;
+            $isAdmin = boolval($request->input("is_admin"));
+        }
+
+        return User::where("id", $userId)->first()->update([
             "name" => $request->input("name"),
             "email" => $request->input("email"),
-            "is_admin" => boolval($request->input("is_admin")),
+            "is_admin" => $isAdmin,
         ]);
 
 
