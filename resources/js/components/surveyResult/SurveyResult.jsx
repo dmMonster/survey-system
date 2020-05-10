@@ -1,20 +1,72 @@
 import React, {useEffect, useState} from 'react';
 import Chart from "../chart/Chart";
 import AnswersList from "../surveyResultAnswersList/AnswersList";
-
+import {useParams} from 'react-router-dom';
+import RespondentList from "../respondentList/RespondentList";
+import {surveyService} from "../../_services/surveyService";
 
 const SurveyResult = () => {
 
     const [questions, setQuestions] = useState(null);
+    const [survey, setSurvey] = useState({
+        results_count: '...',
+        end_date: '...'
+    });
+    const [showRespondents, setShowRespondent] = useState(false);
+
+    let {id} = useParams();
     useEffect(() => {
-        axios.get('/api/results').then((response) => {
-            console.log(response.data);
-            setQuestions(response.data.questions);
-        })
+        surveyService.getSurveyResult(id).subscribe({
+           next(response){
+               setQuestions(response.data.questions);
+               setSurvey({
+                   results_count: response.data.results_count,
+                   end_date: response.data.end_date
+               })
+           },
+            error(){alert('Loading error Refresh the application page.')}
+        });
     }, []);
+
+    const [respondents, setRespondents] = useState([]);
+    const seeRespondents = () => {
+        if (showRespondents === true) {
+            setShowRespondent(false);
+        } else {
+           surveyService.getRespondents(id).subscribe({
+               next(response){
+                   setRespondents(response.data);
+               },
+               error(){alert("Loading error Refresh the application page.")}
+           })
+        }
+    };
+
+    useEffect(() => {
+        if (respondents.length > 0) {
+            setShowRespondent(true);
+        }
+    }, [respondents]);
 
     return (
         <div>
+
+            <div className="jumbotron">
+                <h2>Survey stats</h2>
+                <ul className="list-group">
+                    <li className="list-group-item">
+                        Number of responses: {survey.results_count}
+                    </li>
+                    <li className="list-group-item">
+                        Cutoff Date and Time: {survey.end_date}
+                    </li>
+                </ul>
+                <div className="d-flex justify-content-center m-3">
+                    <button onClick={seeRespondents} className="btn btn-primary btn-lg">{!showRespondents ? 'See respondents' : 'Hide list' }</button>
+                </div>
+                {showRespondents && <RespondentList respondents={respondents}/>}
+            </div>
+
             {questions && (
                 questions.map(question => {
                     return (
@@ -23,7 +75,8 @@ const SurveyResult = () => {
                                     <Chart title={question.question_text}
                                            labels={question.answers.map(v => v.answer_text)}
                                            dataset={question.answers.map(v => v.given_answers_count)}/>)
-                                : <AnswersList question={question.question_text} answers={question.text_answers.map(v => v.text_answer)}/>
+                                : <AnswersList question={question.question_text}
+                                               answers={question.text_answers.map(v => v.text_answer)}/>
                             }
                         </div>
                     )
