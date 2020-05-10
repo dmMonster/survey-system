@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -28,6 +29,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        if(!Auth::user()->checkAdmin()) {
+            return User::where('id', Auth::id())->get();
+        }
         return User::where('id', $id)->get();
     }
 
@@ -59,7 +63,7 @@ class UserController extends Controller
 
 
     }
-  
+
    /**
      * Remove the specific user.
      *
