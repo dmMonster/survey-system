@@ -28,7 +28,7 @@ Route::group(['middleware' => ['auth:airlock']], function () {
     Route::get("/users", "UserController@index")->middleware("isAdmin");
     Route::delete("/users/{id}", "UserController@destroy")->middleware("isAdmin");
     Route::get("/users/{id}", "UserController@show");
-    Route::put("/users/{id}", "UserController@update")->middleware("isAdmin");
+    Route::put("/users/{id}", "UserController@update");
 
     Route::get("/surveys", "SurveyController@index");
     Route::get("/surveys/{id}", "SurveyController@index");

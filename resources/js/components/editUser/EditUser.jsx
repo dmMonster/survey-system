@@ -3,6 +3,8 @@ import {useParams, useHistory} from "react-router-dom";
 import {userService} from "../../_services/userService";
 import Loader from 'react-loader-spinner';
 import './editUser.css';
+import {useDispatch, useSelector} from "react-redux";
+import {getLoggedUser} from "../../actions";
 import {useSelector} from "react-redux";
 
 function EditUser() {
@@ -52,11 +54,15 @@ function EditUser() {
         })
     };
 
+    const dispatch = useDispatch();
     const saveData = e => {
         e.preventDefault();
         userService.updateUser(id, user).subscribe({
             next() {
-                history.push("/dashboard/userList");
+                dispatch(getLoggedUser());
+                if (is_admin) {
+                    history.push("/dashboard/userList");
+                }
             },
             error(error) {
                 setErrors(error.response.data);
@@ -91,13 +97,13 @@ function EditUser() {
                        onChange={handleChange}/>
             </div>
 
-            {is_admin &&
-            (<div className="custom-control custom-checkbox form-group">
-                <input type="checkbox" className="custom-control-input" id="isAdmin" name="is_admin"
-                       defaultChecked={user.is_admin}
-                       onChange={handleCheckBox}/>
-                <label className="custom-control-label" htmlFor="isAdmin">Admin</label>
-            </div>)
+            {is_admin ?
+                (<div className="custom-control custom-checkbox form-group">
+                    <input type="checkbox" className="custom-control-input" id="isAdmin" name="is_admin"
+                           defaultChecked={user.is_admin}
+                           onChange={handleCheckBox}/>
+                    <label className="custom-control-label" htmlFor="isAdmin">Admin</label>
+                </div>) : null
             }
 
             <input className="btn btn-lg btn-primary" type="submit" value="Save"/>
