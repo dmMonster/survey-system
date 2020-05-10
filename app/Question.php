@@ -22,4 +22,9 @@ class Question extends Model
     {
         return $this->hasMany(GivenAnswer::class);
     }
+
+    public function textAnswers()
+    {
+        return $this->hasMany(GivenAnswer::class)->where('text_answer', '<>', null);
+    }
 }
