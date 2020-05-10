@@ -3,6 +3,7 @@ import {useParams, useHistory} from "react-router-dom";
 import {userService} from "../../_services/userService";
 import Loader from 'react-loader-spinner';
 import './editUser.css';
+import {useSelector} from "react-redux";
 
 function EditUser() {
 
@@ -16,6 +17,8 @@ function EditUser() {
         email: '',
         is_admin: false,
     });
+
+    const is_admin = useSelector(state => state.authReducer.user.is_admin);
 
     const history = useHistory();
 
@@ -88,12 +91,14 @@ function EditUser() {
                        onChange={handleChange}/>
             </div>
 
-            <div className="custom-control custom-checkbox form-group">
+            {is_admin &&
+            (<div className="custom-control custom-checkbox form-group">
                 <input type="checkbox" className="custom-control-input" id="isAdmin" name="is_admin"
-                       checked={user.is_admin}
+                       defaultChecked={user.is_admin}
                        onChange={handleCheckBox}/>
                 <label className="custom-control-label" htmlFor="isAdmin">Admin</label>
-            </div>
+            </div>)
+            }
 
             <input className="btn btn-lg btn-primary" type="submit" value="Save"/>
 
