@@ -11,10 +11,10 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/app.js') }}" defer type="text/javascript"></script>
 
         <!-- Styles -->
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300i&display=swap" rel="stylesheet">

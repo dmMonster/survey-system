@@ -16,7 +16,6 @@ import {history} from '../history';
 import PublicRoute from "./publicRoute/PublicRoute";
 import StartSurvey from "./startSurvey/StartSurvey";
 
-
 function RootComponent() {
     return (
         <div className="container-fluid">

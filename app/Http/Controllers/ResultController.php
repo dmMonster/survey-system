@@ -24,7 +24,7 @@ class ResultController extends Controller
                 }
             ])->withCount('results')->first());
     }
-
+  
     public function store(StoreResult $request)
     {
         DB::beginTransaction();
