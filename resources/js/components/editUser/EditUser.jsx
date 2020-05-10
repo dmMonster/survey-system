@@ -5,6 +5,7 @@ import Loader from 'react-loader-spinner';
 import './editUser.css';
 import {useDispatch, useSelector} from "react-redux";
 import {getLoggedUser} from "../../actions";
+import {useSelector} from "react-redux";
 
 function EditUser() {
 
