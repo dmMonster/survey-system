@@ -6,10 +6,25 @@ use App\GivenAnswer;
 use App\Http\Requests\StoreResult;
 use App\Respondent;
 use App\Result;
+use App\Survey;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ResultController extends Controller
 {
+    public function index(int $id)
+    {
+        return response()->json(Survey::where('id', $id)->where('user_id', Auth::id())
+            ->with([
+                'questions',
+                'questions.textAnswers',
+                'questions.answers' => function (HasMany $query) {
+                    return $query->withCount('givenAnswers');
+                }
+            ])->withCount('results')->first());
+    }
+  
     public function store(StoreResult $request)
     {
         DB::beginTransaction();
@@ -36,7 +51,6 @@ class ResultController extends Controller
         }
 
         DB::rollBack();
-        return abort(500, 'DB transaction error. The results cannot be saved.' );
-
+        return abort(500, 'DB transaction error. The results cannot be saved.');
     }
 }

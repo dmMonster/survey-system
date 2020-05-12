@@ -1,0 +1,103 @@
+.navigation {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem 0 1rem;
+    background-color: #008677;
+    color: #ffffff;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 450px) {
+    .navigation {
+        font-size: 1rem;
+        padding: 0.5rem 0.5rem 0 0.5rem;
+    }
+}
+
+.navigation-options {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.navigation-main-page {
+    color: #ffffff;
+    font-weight: bold;
+    background-color: #008573;
+    border-radius: 10px;
+    margin-right: 10px;
+    padding: 1rem;
+}
+
+.navigation-main-page:hover {
+    background-color: #2dafff;;
+    color: #ffffff;
+    text-shadow: 1px 1px 10px #155076;
+    text-decoration: none;
+}
+
+.navigation-profile {
+    color: #ffffff;
+    background-color: #009181;
+    border-radius: 10px;
+    margin-right: 10px;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border: 2px solid transparent;
+}
+
+.navigation-profile:hover {
+    text-decoration: none;
+    color: white;
+    border-color: #00b6a6;
+}
+
+.navigation-sing-out {
+    color: #ffffff;
+    text-align: center;
+    display: flex;
+    padding: 0.5rem;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.navigation-sing-out:hover {
+    background-color: #007666;
+}
+
+.dashboard-container {
+    min-height: 82.1vh;
+}
+
+.survey-navigation {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-content: space-between;
+    margin-top: 15px;
+    border-top: 4px solid #008573;
+    padding-top: 5px;
+    box-shadow: 0 -5px 15px rgba(0, 133, 115, 0.52);
+}
+
+.survey-navigation-link {
+    color: rgba(0, 118, 102, 0.75);
+    border-left: 5px solid rgba(35, 110, 164, 0.38);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    text-indent: 10px;
+    font-weight: bold;
+    border-radius: 0 10px 10px 0;
+    margin-bottom: 10px;
+}
+
+.survey-navigation-link:hover {
+    text-decoration: none;
+    box-shadow: 0 0 50px rgba(237, 215, 197, 0.51) inset;
+}
+
+

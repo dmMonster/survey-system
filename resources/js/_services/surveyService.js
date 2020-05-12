@@ -12,6 +12,8 @@ export const surveyService = {
     deleteSurvey,
     startSurvey,
     collectAnswers,
+    getSurveyResult,
+    getRespondents,
 };
 
 function getMySurveys() {
@@ -77,4 +79,12 @@ function updateQuestion(questionId, questionText, questionType, answers = []) {
 
 function deleteQuestion(id) {
     return from(axios.delete("/api/questions/" + id));
+}
+
+function getSurveyResult(id) {
+    return from( axios.get('/api/surveys/' + id + '/results'));
+}
+
+function getRespondents(surveyId) {
+    return from( axios.get('/api/surveys/' + surveyId +'/respondents'));
 }

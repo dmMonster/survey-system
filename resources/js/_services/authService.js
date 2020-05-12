@@ -1,7 +1,8 @@
 export const authService = {
     login,
     isLogged,
-    logout
+    logout,
+    user,
 };
 
 
@@ -12,6 +13,10 @@ async function login(email, password) {
         email: email,
         password: password
     })
+}
+
+async function user() {
+    return await axios.get('/api/user');
 }
 
 async function logout() {

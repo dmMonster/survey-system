@@ -9,7 +9,7 @@ AuthAlert.propTypes = {
 function AuthAlert(props) {
 
     let errorList = [];
-    if (props.errors !== null) {
+    if (props.errors) {
         Object.values(props.errors).forEach(value => {
             errorList.push(<li key={value}>{value[0]}</li>);
         });
