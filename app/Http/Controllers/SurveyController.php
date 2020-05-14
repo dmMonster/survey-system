@@ -16,6 +16,10 @@ class SurveyController extends Controller
         if($id >= 0) {
             return Survey::where('id', $id)->with(['questions', 'questions.answers'])->first();
         }
+
+        if(Auth::user()->checkAdmin()) {
+            return Survey::get();
+        }
         return Survey::where('user_id', Auth::id())->get();
     }
 

@@ -110,6 +110,22 @@ class SurveyTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson($survey->toArray());
     }
+
+    public function testAdminSeeAllSurveys()
+    {
+        $user = factory(User::class)->create();
+        $admin = factory(User::class)->state('admin')->create();
+        Airlock::actingAs($admin);
+
+        $surveys = factory(Survey::class, 5)->state('token')->create([
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this->getJson('/api/surveys');
+        $response->assertStatus(200);
+
+        $response->assertJson($surveys->toArray());
+    }
     //update specific survey
     public function testUserCanUpdateHisSurvey()
     {
