@@ -84,7 +84,7 @@ class UserTest extends TestCase
 
 
     }
-  
+
     public function testAdminCanDeleteUser()
     {
         Airlock::actingAs(factory(User::class)->state("admin")->make());
@@ -111,5 +111,19 @@ class UserTest extends TestCase
         $response->assertStatus(401);
     }
 
+    public function testAdminCannotDeleteLastAdminAccount()
+    {
+        $admin = factory(User::class)->state('admin')->create();
+        Airlock::actingAs($admin);
+
+        $response = $this->delete('/api/users/' . $admin->id);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $admin->id,
+            'is_admin' => true,
+        ]);
+
+        $response->assertStatus(405);
+    }
 
 }
