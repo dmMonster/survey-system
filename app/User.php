@@ -42,7 +42,7 @@ class User extends Authenticatable
     ];
 
     public function checkAdmin() {
-        if($this->is_admin === 1) {
+        if(boolval($this->is_admin)) {
             return true;
         }
         return false;

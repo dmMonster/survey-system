@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    use RefreshDatabase;
     /**
      * Get all users
      * @return mixed
@@ -75,10 +77,16 @@ class UserController extends Controller
      * Remove the specific user.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse|Response
      */
     public function destroy($id)
     {
-        return User::where("id", $id)->delete();
-    }
+        $userToDelete = User::where("id", $id)->first();
+        if($userToDelete->checkAdmin() &&  $adminNumber = count(User::where('is_admin', true)->get()) <= 1) {
+            return response()->json([
+                'message'=> 'You cannot delete the last administrator account!',
+            ], 405);
+        }
+        return $userToDelete->delete();
+}
 }
