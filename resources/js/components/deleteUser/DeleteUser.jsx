@@ -1,7 +1,6 @@
 import React from 'react';
 import {useParams, useHistory} from 'react-router-dom';
 import {userService} from "../../_services/userService";
-import {useSelector} from "react-redux";
 
 const DeleteUser = () => {
 
@@ -14,7 +13,7 @@ const DeleteUser = () => {
     };
 
     const userId = useSelector(state => state.authReducer.user.id);
-
+    const [error, setError] = useState(null);
     const deleteUser = () => {
         userService.deleteUser(id).subscribe({
             next() {
@@ -24,14 +23,19 @@ const DeleteUser = () => {
                     history.goBack();
                 }
             },
-            error(error) {
-                console.log(error.response.data)
+            error(error){
+                setError(error.response.data.message);
             }
         })
     };
 
     return (
         <div className="container">
+
+            <div className={(!error ? 'd-none' : null) + ' alert alert-danger'}>
+                {error}
+            </div>
+
             <div>
                 <h4 className="text-center">Are you sure?</h4>
                 <div className="d-flex justify-content-center">

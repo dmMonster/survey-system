@@ -80,7 +80,14 @@ class UserController extends Controller
     public function destroy(int $id)
     {
         if(Auth::user()->checkAdmin() || Auth::id() === $id) {
-            return User::where('id', $id)->delete();
+            $userToDelete = User::where("id", $id)->first();
+            if($userToDelete->checkAdmin() &&  $adminNumber = count(User::where('is_admin', true)->get()) <= 1) {
+                return response()->json([
+                    'message'=> 'You cannot delete the last administrator account!',
+                ], 405);
+            } else {
+                $userToDelete->delete();
+            }
         }
         return response('',403);
     }
