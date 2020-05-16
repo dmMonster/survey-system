@@ -138,7 +138,7 @@ class UserTest extends TestCase
             'is_admin' => true,
         ]);
 
-        $response->assertStatus(405);
+        $response->assertStatus(403);
     }
 }
 
