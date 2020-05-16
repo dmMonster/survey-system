@@ -26,7 +26,7 @@ Route::post("/results", "ResultController@store");
 
 Route::group(['middleware' => ['auth:airlock']], function () {
     Route::get("/users", "UserController@index")->middleware("isAdmin");
-    Route::delete("/users/{id}", "UserController@destroy")->middleware("isAdmin");
+    Route::delete("/users/{id}", "UserController@destroy");
     Route::get("/users/{id}", "UserController@show");
     Route::put("/users/{id}", "UserController@update");
 

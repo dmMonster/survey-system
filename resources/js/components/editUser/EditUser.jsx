@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {useParams, useHistory} from "react-router-dom";
+import {useParams, useHistory, NavLink} from "react-router-dom";
 import {userService} from "../../_services/userService";
 import Loader from 'react-loader-spinner';
 import './editUser.css';
 import {useDispatch, useSelector} from "react-redux";
 import {getLoggedUser} from "../../actions";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 
 function EditUser() {
 
@@ -80,6 +82,10 @@ function EditUser() {
 
     const editUserForm = (
         <form className="edit-user-form" onSubmit={saveData}>
+                <NavLink to={"/dashboard/users/" + user.id + "/delete"} className="nav-link d-flex justify-content-end">
+                    <FontAwesomeIcon icon={faTrashAlt} size={"2x"}
+                                     color={"#d42f35"}/>
+                </NavLink>
             <div className="form-group">
                 <label htmlFor="name">
                     Name:
