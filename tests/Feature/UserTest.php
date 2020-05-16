@@ -84,7 +84,7 @@ class UserTest extends TestCase
 
 
     }
-  
+
     public function testAdminCanDeleteUser()
     {
         Airlock::actingAs(factory(User::class)->state("admin")->make());
@@ -102,7 +102,7 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function testUserCannotDeleteOtherUser()
+    public function testUnauthorizedUserCannotDeleteAccount()
     {
         $user = factory(User::class)->create();
 
@@ -110,6 +110,22 @@ class UserTest extends TestCase
 
         $response->assertStatus(401);
     }
+
+    public function testUserCannotDeleteOtherUser()
+    {
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+
+        Airlock::actingAs($user);
+
+        $response = $this->delete('/api/users/' . $user2->id);
+        $response->assertStatus(403);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $user2->id,
+        ]);
+    }
+
 
 
 }

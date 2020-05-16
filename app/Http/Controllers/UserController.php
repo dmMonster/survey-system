@@ -77,8 +77,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        return User::where("id", $id)->delete();
+        if(Auth::user()->checkAdmin() || Auth::id() === $id) {
+            return User::where('id', $id)->delete();
+        }
+        return response('',403);
     }
 }
