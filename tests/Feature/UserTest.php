@@ -102,13 +102,28 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function testUserCannotDeleteOtherUser()
+    public function testUnauthorizedUserCannotDeleteAccount()
     {
         $user = factory(User::class)->create();
 
         $response = $this->delete('/api/users/' . $user->id);
 
         $response->assertStatus(401);
+    }
+
+    public function testUserCannotDeleteOtherUser()
+    {
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+
+        Airlock::actingAs($user);
+
+        $response = $this->delete('/api/users/' . $user2->id);
+        $response->assertStatus(403);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $user2->id,
+        ]);
     }
 
     public function testAdminCannotDeleteLastAdminAccount()
@@ -123,7 +138,8 @@ class UserTest extends TestCase
             'is_admin' => true,
         ]);
 
-        $response->assertStatus(405);
+        $response->assertStatus(403);
     }
-
 }
+
+

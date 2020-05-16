@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
 import {userService} from "../../_services/userService";
+import {useSelector} from "react-redux";
 
 const DeleteUser = () => {
 
@@ -12,11 +13,18 @@ const DeleteUser = () => {
         history.goBack();
     };
 
+    const userId = useSelector(state => state.authReducer.user.id);
     const [error, setError] = useState(null);
     const deleteUser = () => {
         userService.deleteUser(id).subscribe({
-            next() {history.goBack()},
-            error(error){
+            next() {
+                if (parseInt(userId) === parseInt(id)) {
+                    location.reload();
+                } else {
+                    history.goBack();
+                }
+            },
+            error(error) {
                 setError(error.response.data.message);
             }
         })

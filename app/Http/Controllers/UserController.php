@@ -77,16 +77,24 @@ class UserController extends Controller
      * Remove the specific user.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse|Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        $userToDelete = User::where("id", $id)->first();
-        if($userToDelete->checkAdmin() &&  $adminNumber = count(User::where('is_admin', true)->get()) <= 1) {
-            return response()->json([
-                'message'=> 'You cannot delete the last administrator account!',
-            ], 405);
+        if(Auth::user()->checkAdmin() || Auth::id() === $id) {
+            $userToDelete = User::where("id", $id)->first();
+
+            if($userToDelete->is_admin && $adminNumber = count(User::where('is_admin', true)->get()) <= 1) {
+                return response()->json([
+                    'message'=> 'You cannot delete the last administrator account!',
+                ], 403);
+            } else {
+                return $userToDelete->delete();
+            }
+
         }
-        return $userToDelete->delete();
+        return response()->json([
+            'message'=> 'You cannot delete this account!',
+        ], 403);
 }
 }
