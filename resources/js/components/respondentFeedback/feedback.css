@@ -1,6 +1,7 @@
 .feedback-container {
     background-color: rgba(234, 228, 228, 0.5);
     padding: 10rem 2rem;
+    min-height: 90vh;
     text-align: center;
 }
 

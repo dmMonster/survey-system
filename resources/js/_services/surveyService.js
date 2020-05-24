@@ -14,6 +14,7 @@ export const surveyService = {
     collectAnswers,
     getSurveyResult,
     getRespondents,
+    saveRating,
 };
 
 function getMySurveys() {
@@ -87,4 +88,11 @@ function getSurveyResult(id) {
 
 function getRespondents(surveyId) {
     return from( axios.get('/api/surveys/' + surveyId +'/respondents'));
+}
+
+function saveRating(surveyToken, rating, description) {
+    return from(axios.post('/api/surveys/' + surveyToken + '/ratings', {
+        rating: rating,
+        description: description,
+    }));
 }
