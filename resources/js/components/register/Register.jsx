@@ -20,33 +20,20 @@ function Register() {
 
     const [registerErrors, setRegisterErrors] = useState(null);
 
-    const  history = useHistory();
+    const history = useHistory();
 
-    const register = (e) => {
+    const register = async (e) => {
         e.preventDefault();
 
-
-        fetch("/api/register", {
-            method: "post",
-            headers: {
-                accept: 'application/json',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        })
-            .then((response) => {
-                    if (response.status === 201) {
-                        history.push("/dashboard");
-                    } else if(response.status === 422){
-                        response.json().then(response => {
-                            setRegisterErrors(response.errors);
-                        })
-                    }
-
-                }
-            )
-
+        await axios.get("/airlock/csrf-cookie");
+        try {
+            await axios.post("/api/register",
+                user
+            );
+            history.push("/dashboard");
+        } catch (errors) {
+            setRegisterErrors(errors.response.data.errors);
+        }
     };
 
     const refPass = useRef(null);
