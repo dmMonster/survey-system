@@ -34,7 +34,7 @@ function StartSurvey() {
     function saveResult(responses) {
         surveyService.collectAnswers(responses, survey.id).subscribe({
             next() {
-                history.push('/dashboard/surveys/' + survey.id + '/respondent-opinion')
+                history.push('/surveys/' + survey.token + '/respondent-opinion')
             },
             error(error) {
                 setError(error.response.data);
