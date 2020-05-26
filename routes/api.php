@@ -47,6 +47,8 @@ Route::group(['middleware' => ['auth:airlock']], function () {
 
     Route::get("/surveys/{id}/results", "ResultController@index");
     Route::get("/surveys/{id}/respondents", "RespondentController@index");
+
+    Route::get("/surveys/{id}/ratings", "RatingController@index");
 });
 
 

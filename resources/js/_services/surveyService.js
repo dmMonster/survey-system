@@ -15,6 +15,7 @@ export const surveyService = {
     getSurveyResult,
     getRespondents,
     saveRating,
+    getSurveyRating,
 };
 
 function getMySurveys() {
@@ -95,4 +96,8 @@ function saveRating(surveyToken, rating, description) {
         rating: rating,
         description: description,
     }));
+}
+
+function getSurveyRating(id) {
+    return from(axios.get('/api/surveys/' + id + '/ratings'));
 }

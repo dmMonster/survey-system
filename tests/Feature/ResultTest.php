@@ -8,7 +8,6 @@ use App\Question;
 use App\Respondent;
 use App\Result;
 use App\Survey;
-use App\SurveyRating;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Airlock\Airlock;
@@ -267,35 +266,5 @@ class ResultTest extends TestCase
 
 
         $response->assertStatus(404);
-    }
-
-    public function testRespondentAddRatingToSurvey()
-    {
-        $respondent = factory(Respondent::class)->create();
-        $rating = factory(SurveyRating::class)->make()->toArray();
-
-        $response = $this->post('/api/surveys/' . $this->survey->token . '/ratings', $rating,
-            ['REMOTE_ADDR' => $respondent->ip]);
-
-        $response->assertStatus(201);
-
-        $this->assertDatabaseHas('survey_ratings', $rating);
-    }
-
-    public function testRespondentGiveInvalidRating()
-    {
-        $respondent = factory(Respondent::class)->create();
-
-
-        $response = $this->postJson('/api/surveys/' . $this->survey->token . '/ratings', [
-            'rating' => 999,
-            'description' => ''
-        ],
-            ['REMOTE_ADDR' => $respondent->ip]);
-
-        $response->assertStatus(422);
-
-        $responseJson = $response->json();
-        $this->assertArrayHasKey('rating', $responseJson['errors'], 'Incorrect rating error.');
     }
 }

@@ -9,6 +9,16 @@ use App\SurveyRating;
 
 class RatingController extends Controller
 {
+    public function index(int $id)
+    {
+        $this->authorize('viewAny', [SurveyRating::class, $id]);
+
+        $ratings = collect([
+            'opinions' => SurveyRating::where('survey_id', $id)->where('description', '<>', null)->get()
+        ]);
+        return $ratings->prepend(SurveyRating::where('survey_id', $id)->avg('rating'), 'average_rating');
+    }
+
     public function store(StoreRating $request, string $surveyToken)
     {
         $respondentId = Respondent::select('id')->where('ip', $request->ip())->first()->id;
