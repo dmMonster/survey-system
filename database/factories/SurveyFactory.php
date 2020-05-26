@@ -4,7 +4,7 @@
 
 use App\Survey;
 use Faker\Generator as Faker;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 $factory->define(Survey::class, function (Faker $faker) {
     $date = date("Y-m-d H:i:s", (time() + 7200));
@@ -17,6 +17,6 @@ $factory->define(Survey::class, function (Faker $faker) {
 
 $factory->state(Survey::class, "token", function () {
     return [
-        'token' => Hash::make(date("Y-m-d H:i:s")),
+        'token' => Str::random(50) . time(),
     ];
 });

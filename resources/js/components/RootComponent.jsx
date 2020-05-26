@@ -15,6 +15,7 @@ import PrivateRoute from "./privateRoute/PrivateRoute";
 import {history} from '../history';
 import PublicRoute from "./publicRoute/PublicRoute";
 import StartSurvey from "./startSurvey/StartSurvey";
+import RespondentFeedback from "./respondentFeedback/RespondentFeedback";
 
 function RootComponent() {
     return (
@@ -45,6 +46,9 @@ function RootComponent() {
 
                 <Route path={"/survey/solve/:token"}>
                     <StartSurvey/>
+                </Route>
+                <Route path={"/surveys/:token/respondent-opinion"}>
+                    <RespondentFeedback/>
                 </Route>
 
                 <Footer/>
