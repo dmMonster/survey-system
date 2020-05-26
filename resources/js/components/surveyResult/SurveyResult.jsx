@@ -4,6 +4,9 @@ import AnswersList from "../surveyResultAnswersList/AnswersList";
 import {useParams} from 'react-router-dom';
 import RespondentList from "../respondentList/RespondentList";
 import {surveyService} from "../../_services/surveyService";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faStar} from "@fortawesome/free-solid-svg-icons";
+import RespondentFeedback from "../respondentFeedback";
 
 const SurveyResult = () => {
 
@@ -48,6 +51,29 @@ const SurveyResult = () => {
         }
     }, [respondents]);
 
+
+    const [rating, setRating] = useState({
+        average_rating: 0,
+        opinions: []
+    });
+    useEffect(() => {
+        surveyService.getSurveyRating(id).subscribe({
+            next(response){
+                setRating(response.data);
+            },
+            error(error){console.log('Error loading ratings: ',error.response.data.message)}
+        })
+    },[]);
+
+    const [showOpinion, setShowOpinion] = useState(false);
+    const toggleShowOpinion = () => {
+      if(showOpinion === false) {
+          setShowOpinion(true);
+      }  else {
+          setShowOpinion(false);
+      }
+    };
+
     return (
         <div>
 
@@ -58,7 +84,16 @@ const SurveyResult = () => {
                         Number of responses: {survey.results_count}
                     </li>
                     <li className="list-group-item">
-                        Cutoff Date and Time: {survey.end_date}
+                        Cutoff date and time: {survey.end_date}
+                    </li>
+                    <li className="list-group-item">
+                        <span>Average rating: </span>
+                        <span>{rating.average_rating}</span>
+                        <FontAwesomeIcon icon={faStar} color={'#bda20e'}/>
+                        <button onClick={toggleShowOpinion} className="btn btn-outline-info ml-2">Click to show opinions({rating.opinions.length})</button>
+
+                        {!!showOpinion &&  <RespondentFeedback opinions={rating.opinions}/>}
+
                     </li>
                 </ul>
                 <div className="d-flex justify-content-center m-3">

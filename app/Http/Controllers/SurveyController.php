@@ -6,8 +6,8 @@ use App\Http\Requests\UpdateSurvey;
 use App\Survey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class SurveyController extends Controller
 {
@@ -51,7 +51,7 @@ class SurveyController extends Controller
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'end_date' => $request->input('end_date'),
-            'token' => Hash::make($request->input('end_data')),
+            'token' => Str::random(50).time(),
             'user_id' => Auth::id(),
         ]);
     }

@@ -12,4 +12,9 @@ class Respondent extends Model
     {
         return $this->hasMany(Result::class);
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(SurveyRating::class);
+    }
 }
