@@ -7,6 +7,7 @@ import {surveyService} from "../../_services/surveyService";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar} from "@fortawesome/free-solid-svg-icons";
 import RespondentFeedback from "../respondentFeedback";
+import DownloadCsv from "../downloadCsv/DownloadCSV";
 
 const SurveyResult = () => {
 
@@ -79,6 +80,7 @@ const SurveyResult = () => {
 
             <div className="jumbotron">
                 <h2>Survey stats</h2>
+                {questions && <DownloadCsv fileName={'survey_stats'} questions={questions}/>}
                 <ul className="list-group">
                     <li className="list-group-item">
                         Number of responses: {survey.results_count}
@@ -101,7 +103,6 @@ const SurveyResult = () => {
                 </div>
                 {showRespondents && <RespondentList respondents={respondents}/>}
             </div>
-
             {questions && (
                 questions.map(question => {
                     return (
