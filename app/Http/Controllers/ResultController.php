@@ -15,7 +15,12 @@ class ResultController extends Controller
 {
     public function index(int $id)
     {
-        return response()->json(Survey::where('id', $id)->where('user_id', Auth::id())
+        $query = Survey::where('id', $id);
+        if( !Auth::user()->checkAdmin() ) {
+            $query = $query->where('user_id', Auth::id());
+        }
+
+        return response()->json($query
             ->with([
                 'questions',
                 'questions.textAnswers',
@@ -24,7 +29,7 @@ class ResultController extends Controller
                 }
             ])->withCount('results')->first());
     }
-  
+
     public function store(StoreResult $request)
     {
         DB::beginTransaction();

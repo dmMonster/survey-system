@@ -267,4 +267,50 @@ class ResultTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    public function testAdminCanSeeAnySurveyResult()
+    {
+        $admin = factory(User::class)->state('admin')->create();
+        Airlock::actingAs($admin);
+
+        $respondent = factory(Respondent::class)->create();
+
+        $result = factory(Result::class)->create([
+            'survey_id' => $this->survey->id,
+            'respondent_id' => $respondent->id,
+        ]);
+
+
+        factory(GivenAnswer::class)->create([
+            'result_id' => $result->id,
+            'question_id' => $this->questionSingleChoice->id,
+            'answer_id' => $this->answers1->toArray()[0]['id'],
+        ]);
+
+        factory(GivenAnswer::class)->create([
+            'result_id' => $result->id,
+            'question_id' => $this->questionMultiChoice->id,
+            'answer_id' => $this->answers2->toArray()[0]['id'],
+        ]);
+
+        factory(GivenAnswer::class)->create([
+            'result_id' => $result->id,
+            'question_id' => $this->questionTextAnswer->id,
+            'answer_id' => null,
+            'text_answer' => 'test',
+        ]);
+
+
+        $response = $this->getJson('/api/surveys/' . $this->survey->id . '/results');
+
+        $responseJson = $response->json();
+        $this->assertArrayHasKey('results_count', $responseJson, 'Missing field: results_count.');
+        $this->assertEquals(1, $responseJson['results_count']);
+        $this->assertArrayHasKey('questions', $responseJson, 'Missing field: questions.');
+
+        $this->assertArrayHasKey('answers', $responseJson['questions'][0], 'Missing field: answers.');
+        $this->assertEquals(1, $responseJson['questions'][0]['answers'][0]['given_answers_count']);
+
+        $response->assertStatus(200);
+    }
 }
