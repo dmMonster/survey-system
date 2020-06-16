@@ -5,10 +5,14 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Airlock\HasApiTokens;
 
+/**
+ * @method static get()
+ */
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'is_admin',
     ];
 
     /**
@@ -36,4 +40,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function checkAdmin() {
+        if(boolval($this->is_admin)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function surveys()
+    {
+        return $this->hasMany(Survey::class);
+    }
 }

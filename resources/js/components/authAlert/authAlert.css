@@ -1,0 +1,13 @@
+.register-alert {
+    background-color: #f44336;
+    opacity: 0.8;
+    border-radius: 10px;
+    text-indent: 0;
+    color: white;
+}
+
+.register-alert li {
+    list-style-type: disc;
+    padding: 1em;
+    font-weight: bold;
+}
