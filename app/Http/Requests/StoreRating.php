@@ -17,8 +17,8 @@ class StoreRating extends FormRequest
      */
     public function authorize()
     {
-        $respondentId = Respondent::where('ip', $this->ip())->first()->id;
-        $surveyId = Survey::where('token', $this->route('token'))->first()->id;
+        $respondentId = Respondent::where('ip', $this->ip())->first()["id"];
+        $surveyId = Survey::where('token', $this->route('token'))->first()["id"];
         $surveyRating = SurveyRating::where('survey_id', $surveyId)->where('respondent_id', $respondentId)->first();
         if ($surveyRating === null) {
             return true;
