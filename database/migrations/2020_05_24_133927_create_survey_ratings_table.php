@@ -20,7 +20,7 @@ class CreateSurveyRatingsTable extends Migration
             $table->timestamps();
 
             $table->foreignId('survey_id')->references('id')->on('surveys')->onDelete('cascade');
-            $table->foreignId('respondent_id')->references('id')->on('surveys')->onDelete('cascade');
+            $table->foreignId('respondent_id')->references('id')->on('respondents')->onDelete('cascade');
         });
     }
 
