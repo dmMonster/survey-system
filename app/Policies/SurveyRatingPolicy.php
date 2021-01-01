@@ -9,7 +9,7 @@ class SurveyRatingPolicy
 {
     public function viewAny(User $user, int $surveyId): bool
     {
-        return Survey::where('id', $surveyId)->first()['user_id'] === $user['id'] || $user->checkAdmin();
+        return Survey::where('id', $surveyId)->first()['user_id'] == $user['id'] || $user->checkAdmin();
     }
 
 }
