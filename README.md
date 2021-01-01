@@ -26,3 +26,4 @@ php artisan migrate --seed
 npm run production
 ```
 -
+https://survey-system-mkom.herokuapp.com/
