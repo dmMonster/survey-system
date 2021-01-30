@@ -22,15 +22,14 @@ class Header extends Component {
                     </nav>
 
                     <div className="row justify-content-lg-center m-0">
-                        <div className="title col-md-3">
+                        <div className="title col-md-5 offset-1">
                             <h1 className="pb-3">Online surveys for free</h1>
                             <h5 className="font-italic">Modern surveys for everyone </h5>
                             <img className="header-image" src={blackTablet} alt="laptop"/>
                         </div>
-                        <div className="col-md-3">
+                        <div className="col-lg-4 col-md-5 offset-1">
                             <Register/>
                         </div>
-
                     </div>
 
 
